@@ -1,6 +1,4 @@
 import React from 'react';
-import Link from '../Link/Link';
-
 const Image: React.FC<{ 
         class: string,
         url:string,

@@ -1,0 +1,27 @@
+.container{
+    width: 100%;
+    display: flex;
+}
+
+@media screen and (min-width: 1025px) and (max-width: 8750px) {
+    .florest{
+        background-size:cover ;
+        height: 100%;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .florest{
+        background-size:cover ;
+        height: 100%;
+    }
+}
+
+.florest{       
+    position: absolute;   
+    z-index: -1;
+}
+
+.logo{
+    height: 40%;
+}

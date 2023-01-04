@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from '../Link/Link';
 
 const Navbar: React.FC<{ 
         class: string,
