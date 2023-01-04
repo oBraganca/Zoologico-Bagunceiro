@@ -1,33 +1,39 @@
 import React, { Component } from 'react'
-import styles from './homePage.module.css';
+import styles from '../css/homePage.module.css';
 
-import Navbar from  "../../components/Navbar/Navbar";
-import Link from '../../components/Link/Link';
-import Container from '../../components/Container/Container';
-import Content from '../../components/Content/Content';
-import Image from '../../components/Image/Image';
-import IconLike from '../../components/Icons/IconLike';
-import IconLogin from '../../components/Icons/IconLogin';
-import IconResponsive from '../../components/Icons/IconResponsive';
+import Navbar from  "../components/Navbar/Navbar";
+// import Link from '../components/Link/Link';
+import Container from '../components/Container/Container';
+import Image from '../components/Image/Image';
+import IconLike from '../components/Icons/IconLike';
+import IconLogin from '../components/Icons/IconLogin';
+import IconResponsive from '../components/Icons/IconResponsive';
 
-import background from '../../../public/images/homeBackground.jpg';
+import {Link } from "react-router-dom"
+
+
+import Box from '@mui/material/Box'
+
+
+import background from '../../public/images/homeBackground.jpg';
 
 const HomePage: React.FC<{}> = () =>{
     return(
         <Container class={styles.background}>
             <Image class={styles.homeComponent} url={window.location.origin + "/images/homeComponent.png"} alt="BigCo Inc. logo"/>
             <Navbar class={styles.navbar}>
-                <Link class={styles.link} title="INICIO" url="/"/>
-                <Link class={styles.link} title="SERVIÇOS" url="/"/>
-                <Link class={styles.link} title="FALE CONOSCO" url="/"/>
-                <Link class={styles.link} title="LOGIN" url="/"/>
+
+                <Link className={styles.link} to="/">INICIO</Link>
+                <Link className={styles.link} to="/">SERVIÇOS</Link>
+                <Link className={styles.link} to="/">FALE CONOSCO</Link>
+                <Link className={styles.link} to="/login">LOGIN</Link>
             </Navbar>
-            <Content class={styles.content}>
+            <Box className={styles.content}>
                 <Image class={styles.homeBackground} url={window.location.origin + "/images/homeBackground.jpg"} alt="BigCo Inc. logo"/>
-            </Content>
+            </Box>
             
-            <Content class={styles.content}>
-                <Content class={styles.content_title}>
+            <Box className={styles.content} >
+                <Box className={styles.content_title}>
                     <h1 className="">Match dos animais</h1>
                         <p> 
                             <strong>Match dos animais</strong> é usado para os animaizinhos saibam
@@ -35,9 +41,9 @@ const HomePage: React.FC<{}> = () =>{
                         <p>
                             quem gostam e desgostam entre sí.
                         </p> 
-                </Content>
-                <Content class={styles.content_icons}>
-                    <Content class={""}>
+                </Box>
+                <Box className={styles.content_icons}>
+                    <Box className={""}>
                         <IconLike/>
                         <h3 className="">Like/Dislike</h3>
                         <small>
@@ -49,9 +55,9 @@ const HomePage: React.FC<{}> = () =>{
                             </p>
                              afinidades
                         </small>
-                    </Content>
+                    </Box>
 
-                    <Content class={""}>
+                    <Box className={""}>
                         <IconResponsive/>
                         <h3 className="">Responsividade</h3>
                         <small>
@@ -63,9 +69,9 @@ const HomePage: React.FC<{}> = () =>{
                             </p>
                                 problemas
                         </small>
-                    </Content>
+                    </Box>
 
-                    <Content class={""}>
+                    <Box className={""}>
                         <IconLogin/>
                         <h3 className="">Tela de login</h3>
                         <small>
@@ -77,12 +83,12 @@ const HomePage: React.FC<{}> = () =>{
                             </p>
                             interagir com os outros.
                         </small>
-                    </Content>
-                </Content>
-                <Content class={styles.card}>
-                    <Content class={styles.card_content}>
+                    </Box>
+                </Box>
+                <Box className={styles.card}>
+                    <Box className={styles.card_content}>
                         <Image class={styles.card_content_image} url={window.location.origin + "/images/friends.jpg"} alt="BigCo Inc. logo"/>
-                        <Content class={styles.card_content_text}>
+                        <Box className={styles.card_content_text}>
 
                             <h1 className="">Nossa Historia</h1>
                             <p>
@@ -91,10 +97,10 @@ const HomePage: React.FC<{}> = () =>{
                             <p>  
                                 Foi com a iniciativa do Zoológico Bagunceiro que foi desenvolvida, juntamente com a Codificar,  o Match dos animais. Desse modo, esses animaizinhos podem encontrar novas amizades.</p>
 
-                        </Content>
-                    </Content>
-                </Content>
-            </Content>
+                        </Box>
+                    </Box>
+                </Box>
+            </Box>
         </Container>
 
     )
