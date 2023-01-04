@@ -1,0 +1,124 @@
+.navbar{
+    width: 100%;
+    height: 3.5rem;
+    background-color: #E0D9CF;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.link{
+    text-decoration: none;
+    color: #000000;
+    font-size: 16px;
+    margin-right: 3rem;
+    z-index: 2;
+}
+
+/* .background{
+  background: url("../../../public/images/homeComponent.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+} */
+
+
+@media screen and (min-width: 1025px) and (max-width: 8750px) {
+    .homeComponent{
+        position: absolute;
+        width: 100%;
+    }
+    .homeBackground{
+        background-size:cover ;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .homeBackground{
+        background-size:cover ;
+        width: 100%;
+    }
+}
+
+.homeBackground{       
+    position: absolute;   
+    top: -100px;  
+    z-index: -1;
+}
+.homeComponent{ 
+    top: -100px;  
+}
+
+.content{
+    width: 100%;
+    height: 100vh;
+}
+
+.content_title{
+    width: 100%;
+    height: 40vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    /* margin-top: 6rem; */
+    text-align: center;
+}
+.content_icons{
+    width: 100%;
+    height: 40vh;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.content_icons div{
+    margin:1.5rem;
+}
+.content_icons div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.card{
+    margin: 10rem 0 2rem 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    max-height: 60vh;
+    position: relative;
+}
+
+.card_content{
+    width: 85%;
+    background-color: #ffd78dd2;
+    padding: 0 2rem;
+    height: 60vh;
+    border-radius: 15px;
+    display: flex;
+    
+
+}
+
+.card_content_image{
+    position: absolute;
+    height: 65vh;
+    bottom: 0;
+    border-radius:  15px 15px 0  0;
+
+}
+
+.card_content_text{
+    
+    margin: 3rem 0 2rem 0;
+    margin-left: 23rem;
+
+}
+.card_content_text h1{
+    margin-bottom: 3rem;
+}
+.card_content_text p{
+    font-size: 20px;
+    color: #6F6D6D;
+}
