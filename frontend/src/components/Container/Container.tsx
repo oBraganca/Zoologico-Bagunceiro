@@ -1,9 +1,6 @@
 import React from 'react';
 
-const Container: React.FC<{ 
-        class: string,
-        children: React.ReactNode
-    }> = (props: { 
+const Container = (props: { 
         class: string, children: React.ReactNode 
     }) => {
     return( 

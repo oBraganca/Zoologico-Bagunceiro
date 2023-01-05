@@ -14,42 +14,54 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import Visibility from '@mui/icons-material/Visibility'
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 import {Link } from "react-router-dom"
+import FormGroup from '@mui/material/FormGroup';
 
 import Navbar from  "../components/Navbar/Navbar";
 // import Link from '../components/Link/Link';
 import Container from '../components/Container/Container';
 import Image from '../components/Image/Image';
+// import Form from '../components/Form/Form';
+import {FetchPost} from '../hooks/useFetch'
+type Response = {
+    message: string;
+}
 
-interface Props {
-    children: React.ReactElement
-  }
-
-const HomePage: React.FC<{}> = () =>{
+const Login = () =>{
     const [showPassword, setShowPassword] = React.useState(false);
+
+    const [email, setEmail] = React.useState('');
+    const [password, setPassword] = React.useState('')
+    const {data, handleSubmit} = FetchPost('http://127.0.0.1:8000/api/login',{
+            "email":email,
+            "password":password,
+        });
   
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     
-    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement> ) => {
         event.preventDefault();
     };
+
+
+
     
     return(
         <Container class={styles.container}>
             <Box component="div" sx={{width: '100%'}}>
                 <Image class={styles.florest} url={window.location.origin + "/images/florest.png"} alt="BigCo Inc. logo"/>
             </Box>
-            <Box component="div" sx={{width: '100%' , display:'flex',  justifyContent: 'center',flexDirection: 'column', height: "100vh", alignItems: 'center'}}>
+            <form onSubmit={handleSubmit} style={{width: '100%' , display:'flex',  justifyContent: 'center',flexDirection: 'column', height: "100vh", alignItems: 'center'}}>
 
                     <Image class={styles.logo} url={window.location.origin + "/images/logo.png"} alt="BigCo Inc. logo"/>
             
-                    <InputLabel style={{ borderRadius: 50, width:'45%'}} htmlFor="standard-adornment-password">Email</InputLabel>
-                    <OutlinedInput
+                    <InputLabel style={{ borderRadius: 50, width:'45%' }} htmlFor="standard-adornment-password">Email:{email}</InputLabel>
+                    <OutlinedInput onChange={e => setEmail(e.target.value)}
                         style={{ borderRadius: 50, width:'50%' , marginBottom:"1rem"}}
                         type={'email'}
                     /> 
 
                     <InputLabel style={{ borderRadius: 50, width:'45%' }} htmlFor="standard-adornment-password">Password</InputLabel>
-                    <OutlinedInput
+                    <OutlinedInput onChange={e => setPassword(e.target.value)}
                         style={{ borderRadius: 50, width:'50%' , marginBottom:"3rem"}}
                         type={showPassword ? 'text' : 'password'}
                         endAdornment={
@@ -65,11 +77,11 @@ const HomePage: React.FC<{}> = () =>{
                         }
                     />  
                     
-                    <Button style={{ borderRadius: 50, width:'50%', padding:'1rem', backgroundColor: "#83626D", marginBottom:"0.5rem"}} variant="contained">Log in</Button>
+                    <Button type="submit" style={{ borderRadius: 50, width:'50%', padding:'1rem', backgroundColor: "#83626D", marginBottom:"0.5rem"}} variant="contained">Log in</Button>
                     <Link style={{ display:'flex',justifyContent:'center' ,textDecoration:'none', color:'white', borderRadius: 50, width:'50%', padding:'0.5rem 0', backgroundColor: "#83626D"}} to="/"><Button style={{ boxShadow: "none", backgroundColor: "transparent"}} variant="contained"><ArrowCircleLeftOutlinedIcon/>Voltar para o inicio</Button></Link>
-            </Box>
+            </form>
         </Container>
 
     )
 }
-export default HomePage
+export default Login

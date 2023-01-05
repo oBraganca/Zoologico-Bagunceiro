@@ -17,7 +17,7 @@ import Box from '@mui/material/Box'
 
 import background from '../../public/images/homeBackground.jpg';
 
-const HomePage: React.FC<{}> = () =>{
+const HomePage = () =>{
     return(
         <Container class={styles.background}>
             <Image class={styles.homeComponent} url={window.location.origin + "/images/homeComponent.png"} alt="BigCo Inc. logo"/>
