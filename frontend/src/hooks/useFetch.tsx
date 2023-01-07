@@ -1,21 +1,21 @@
 import {useEffect, useState, useCallback} from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export function useFetch<T = unknown>(url: string){
-    
   const [data, setData] = useState<T | null>(null)
-  
   useEffect(() => {
-    axios.get(url)
-        .then(response => {
-            setData(response.data);
+      axios.get(url)
+      .then(response => {
+          setData(response.data);
         })
     },[])
-
+    
     return { data }
 }
 
 export function FetchPost<T = unknown>(url: string, genericData:any){
+    const navigate = useNavigate();   
     
     const [data, setData] = useState<T | null>(null)
     
@@ -24,8 +24,8 @@ export function FetchPost<T = unknown>(url: string, genericData:any){
         event?.preventDefault();
         axios.post(url, genericData)
             .then(response => {
-                console.log(genericData)
                 setData(response.data);
+                navigate('/')
             })
     }
   

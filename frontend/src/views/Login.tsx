@@ -21,20 +21,27 @@ import Navbar from  "../components/Navbar/Navbar";
 import Container from '../components/Container/Container';
 import Image from '../components/Image/Image';
 // import Form from '../components/Form/Form';
-import {FetchPost} from '../hooks/useFetch'
-type Response = {
-    message: string;
-}
+import {useEffect, useState, useCallback} from 'react';
+import axios from 'axios';
+import { useSelector, useDispatch} from 'react-redux';
 
-const Login = () =>{
+// import ROOT_INITIAL_STATE from '../reducer/authorizationReducer'
+type ROOT_INITIAL_STATE ={
+    authChecked: false;
+    loggedIn: false;
+    currentUser: {}
+};
+
+function Login(){
+
+    const authentication = useSelector((state:any) => state) 
+    const dispatch = useDispatch();
+    console.log((authentication.authorizationReducer))
+
     const [showPassword, setShowPassword] = React.useState(false);
 
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('')
-    const {data, handleSubmit} = FetchPost('http://127.0.0.1:8000/api/login',{
-            "email":email,
-            "password":password,
-        });
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
   
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     
@@ -42,7 +49,20 @@ const Login = () =>{
         event.preventDefault();
     };
 
-
+    const handleSubmit = async (e:React.SyntheticEvent<HTMLFormElement>) => {
+        
+        try {
+            axios.post('http://127.0.0.1:8000/api/login',{
+                "email":email,
+                "password":password,
+            }).then(res => dispatch({type: 'AUTHENTICATED', payload:res.data.token}) )
+            
+        } catch (error) {
+            console.log(error)
+        } finally {
+        }
+        e.preventDefault();
+    }
 
     
     return(
