@@ -24,6 +24,7 @@ import Image from '../components/Image/Image';
 import {useEffect, useState, useCallback} from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch} from 'react-redux';
+import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 
 // import ROOT_INITIAL_STATE from '../reducer/authorizationReducer'
 type ROOT_INITIAL_STATE ={
@@ -34,9 +35,8 @@ type ROOT_INITIAL_STATE ={
 
 function Login(){
 
-    const authentication = useSelector((state:any) => state) 
+    const authentication = useSelector((state:any) => state.authUser) 
     const dispatch = useDispatch();
-    console.log((authentication.authorizationReducer))
 
     const [showPassword, setShowPassword] = React.useState(false);
 
@@ -55,7 +55,17 @@ function Login(){
             axios.post('http://127.0.0.1:8000/api/login',{
                 "email":email,
                 "password":password,
-            }).then(res => dispatch({type: 'AUTHENTICATED', payload:res.data.token}) )
+            }).then((res) => {
+                dispatch({
+                    type: 'AUTHENTICATED', 
+                    payload:{
+                        token:res.data.token, 
+                        accessType_id:res.data.access_type,
+                    }
+                    });
+                    <Navigate to="/" replace />
+                }
+            )
             
         } catch (error) {
             console.log(error)
@@ -98,7 +108,7 @@ function Login(){
                     />  
                     
                     <Button type="submit" style={{ borderRadius: 50, width:'50%', padding:'1rem', backgroundColor: "#83626D", marginBottom:"0.5rem"}} variant="contained">Log in</Button>
-                    <Link style={{ display:'flex',justifyContent:'center' ,textDecoration:'none', color:'white', borderRadius: 50, width:'50%', padding:'0.5rem 0', backgroundColor: "#83626D"}} to="/"><Button style={{ boxShadow: "none", backgroundColor: "transparent"}} variant="contained"><ArrowCircleLeftOutlinedIcon/>Voltar para o inicio</Button></Link>
+                    <Link style={{ display:'flex',justifyContent:'center' ,textDecoration:'none', color:'white', borderRadius: 50, width:'50%', padding:'0.5rem 0', backgroundColor: "#83626D"}} to="/home"><Button style={{ boxShadow: "none", backgroundColor: "transparent"}} variant="contained"><ArrowCircleLeftOutlinedIcon/>Voltar para o inicio</Button></Link>
             </form>
         </Container>
 

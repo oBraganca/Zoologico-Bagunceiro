@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import authorizationReducer from './authorizationReducer'; 
+import persistedApiTokenReducer from './authorizationReducer'; 
 
 const reducer = combineReducers({  
-   authorizationReducer,
+   authUser:persistedApiTokenReducer,
 })
 
 
