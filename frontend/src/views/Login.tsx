@@ -38,6 +38,13 @@ function Login(){
     const authentication = useSelector((state:any) => state.authUser) 
     const dispatch = useDispatch();
 
+    console.log(authentication.loggedIn, authentication.currentUser)
+    useEffect(() => {
+        if(authentication.loggedIn) {
+            console.log('a')
+        }
+        <Navigate to="/home" />
+    }, []);
     const [showPassword, setShowPassword] = React.useState(false);
 
     const [email, setEmail] = useState('');
@@ -63,7 +70,6 @@ function Login(){
                         accessType_id:res.data.access_type,
                     }
                     });
-                    <Navigate to="/" replace />
                 }
             )
             
