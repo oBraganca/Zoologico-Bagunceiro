@@ -9,7 +9,8 @@ Route::group(['middleware' => ['guest:api']], function(){
     });
 
     Route::post('login', 'API\LoginController@login');
-    Route::post('register', 'API\RegisterController@register');
+    Route::post('register-animals', 'API\RegisterController@registerAnimals');
+    Route::post('register-keeper', 'API\RegisterController@registerKeeper');
 });
 
 

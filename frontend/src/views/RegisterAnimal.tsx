@@ -50,12 +50,25 @@ const RegisterAnimal = () =>{
     // const [file, setFile] = useState("");
 
     const [state, setState] = useState({
-        scientificName: '',
+        name: '',
         nickname: '',
         email: '',
         password: '',
-        file: ''
+        file: '',
+        nameValid:false,
+        nicknameValid:false,
+        emailValid:false,
+        passwordValid:false,
+        fileValid:false,
     });
+
+    var fieldValidationErrors = {
+        name: '',
+        nickname: '',
+        email: '',
+        password: '',
+        file: '',
+    }
     
     const [showPassword, setShowPassword] = React.useState(false);
 
@@ -65,6 +78,7 @@ const RegisterAnimal = () =>{
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement> ) => {
         event.preventDefault();
     };
+
 
     
     
@@ -94,11 +108,53 @@ const RegisterAnimal = () =>{
         }
         e.preventDefault();
     }
+
+    
+    function validateField (fieldName:string, value:any){
+        let fieldValidationsErrors = ""
+        var objValidate = {
+            name: {
+                validate: () =>{
+                    setState({
+                        ...state, 
+                        ['nameValid']: value.length >= 2,
+                    });
+                    fieldValidationErrors.name = state.nameValid ? 'Nome não pode ser vazio': 'a' ;
+                    console.log(value.length >= 2,fieldValidationErrors.name, state['name'])
+                }
+            },
+            nickname:{
+                validate: () =>{
+                    setState({...state, nicknameValid: value.length >= 1});
+                    fieldValidationErrors.nickname = state.nicknameValid ? '': 'Apelido não pode ser vazio';
+                }
+            },
+            email: {
+                validate: () =>{
+                    setState({...state, emailValid: value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)});
+                    fieldValidationErrors.email = state.emailValid ? '': 'O email digitado não corresponde ao padrão email';
+                }
+            },
+            password:{
+                validate: () =>{
+                    setState({...state, passwordValid: value.length >= 6});
+                    fieldValidationErrors.password = state.passwordValid ? '': ' is too short';
+                }
+            },
+            file: {
+                validate: () =>{
+                    setState({...state, fileValid: value.length >= 1});
+                    fieldValidationErrors.file = state.fileValid ? '': 'A foto do animal não foi escolhida';
+                }
+            },
+        }
+        objValidate[fieldName as keyof typeof objValidate]?.validate()
+    }
     
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name;
         const value = e.target.value;
-
+        validateField(name, value)
         setState({
             ...state,
           [name]: value
@@ -120,7 +176,12 @@ const RegisterAnimal = () =>{
                             <OutlinedInput  onChange={handleChange}
                                 style={{ backgroundColor:'#FFFFFF', borderRadius: 8, width:'100%' , marginBottom:"1rem"}}
                                 type={'text'}
-                            /> 
+                                name={'name'}
+                            />
+                            <InputLabel style={{ borderRadius: 10, width:'45%' }} htmlFor="standard-adornment-password">
+                                {fieldValidationErrors.name}
+                            </InputLabel>
+                            
                         </Grid>
 
                         
