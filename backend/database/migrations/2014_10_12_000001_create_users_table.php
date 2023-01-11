@@ -22,6 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('accessType_id')->unsigned()->nullable();
             $table->foreign('accessType_id')->references('id')->on('access_type')->onDelete('cascade');
             $table->rememberToken();
+            $table->string('pictureUser');
             $table->timestamps();
         });
     }

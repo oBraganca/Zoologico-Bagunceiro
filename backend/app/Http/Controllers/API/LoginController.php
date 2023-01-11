@@ -12,25 +12,6 @@ use App\Models\User;
 
 class LoginController extends Controller
 {
-    // public function login(Request $request){
-    //     $creadencials = request(['email','password']);
-
-    //     if(!Auth::attempt($creadencials)){
-    //         $erro = "Não autorizado";
-    //         $response = [
-    //             'error' => $erro,
-    //         ];
-
-    //         return response()->json($resposta, 404);
-
-    //     }
-
-    //     $usuario = $response->user();
-    //     $response['name'] = $usuario->name;
-    //     $response['email'] = $usuario->email;
-    //     $response['token'] = $usuario->createToken('token')->accessToken;
-    //     return response()->json($response, 200);    
-    // }
     public function login (Request $request) {
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255',

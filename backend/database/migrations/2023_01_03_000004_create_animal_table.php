@@ -17,11 +17,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('nickname');
             $table->string('scientificName');
-            $table->string('pictureZoo');
             $table->unsignedBigInteger('zooWing_id');
             $table->foreign('zooWing_id')->references('id')->on('zoo_wing')->onDelete('cascade');
+            $table->integer('active');
             $table->timestamps();
         });
     }
