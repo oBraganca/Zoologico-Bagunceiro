@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import styles from "../css/createAnimal.module.css"
+import styles from "../css/createZelador.module.css"
 import Button from '@mui/material/Button'
 import InputLabel from '@mui/material/InputLabel'
 import Input from '@mui/material/Input'
@@ -55,45 +55,36 @@ const getBase64 = (file: any) => {
       };
     });
 };
-const RegisterAnimal = () =>{
+const RegisterZelador = () =>{
     
     const authentication = useSelector((state:any) => state.authUser)
     const dispatch = useDispatch();
 
-
     const [state, setState] = useState({
         name: '',
-        nickname: '',
         email: '',
         password: '',
         file: '',
-        zooWing: '',
-        accessType_id: '2',
+        accessType_id: '1',
     });
 
     const [file, setFile] = useState<any>();
     
     const [validName, setValidName] = useState<any>(null);
-    const [validNickname, setValidNickname] = useState<any>(null);
     const [validEmail, setValidEmail] = useState<any>(null);
     const [validPassword, setValidPassword] = useState<any>(null);
-    const [validZooWing, setValidZooWing] = useState<any>(null);
 
     const valid = {
         name: validName,
-        nickname: validNickname,
         email: validEmail,
         password: validPassword,
-        zooWing: validZooWing,
-    }
+    };
 
     const [fieldValidationErrors, setFieldValidationErrors ] = useState({
         name: '',
-        nickname: '',
         email: '',
         password: '',
         file: '',
-        zooWing: '',
     })
     
     const [showPassword, setShowPassword] = React.useState(false);
@@ -104,6 +95,8 @@ const RegisterAnimal = () =>{
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement> ) => {
         event.preventDefault();
     };
+
+
     
     function validateField (fieldName:string, value:any){
         var objValidate = {
@@ -112,13 +105,6 @@ const RegisterAnimal = () =>{
                     const bool = value.length >= 2
                     setValidName(bool)
                     fieldValidationErrors[fieldName as keyof typeof fieldValidationErrors] = bool ? '': 'O nome deve ser maior que 2 letras'
-                }
-            },
-            nickname:{
-                validate: () =>{
-                    const bool = value.length >= 2
-                    setValidNickname(bool)
-                    fieldValidationErrors[fieldName as keyof typeof fieldValidationErrors] = bool ? '': 'O apelido deve ser maior que 2 letras'
                 }
             },
             email: {
@@ -135,14 +121,6 @@ const RegisterAnimal = () =>{
                     setValidPassword(bool)
                     fieldValidationErrors[fieldName as keyof typeof fieldValidationErrors] = bool ? '': 'A senha é muito curta';
                 }
-            },
-            zooWing:{
-                validate: () =>{
-                    const bool = value.length >= 1
-                    setValidZooWing(bool)
-                    fieldValidationErrors[fieldName as keyof typeof fieldValidationErrors] = bool ? '': 'A ala do zoologico deve ser valida';
-                }
-
             },
             file: {
                 validate: () =>{
@@ -177,6 +155,7 @@ const RegisterAnimal = () =>{
     const setVisualError = (x:string, bool:boolean) =>{
         if(!valid[x as keyof typeof valid]  || valid[x as keyof typeof valid] == null){
             let input = document.querySelector('input[name="'+x+'"]');
+            console.log(input)
             validateField(x, '');
             
             bool = false;
@@ -188,27 +167,20 @@ const RegisterAnimal = () =>{
         let bool = true;
         
         bool = setVisualError('name', bool)
-        bool = setVisualError('nickname', bool)
         bool = setVisualError('email', bool)
         bool = setVisualError('password', bool)
-        bool = setVisualError('zooWing', bool)
         
-        console.log(bool)
         return bool;
     }
 
     const handleSubmit = async (e:React.SyntheticEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        let checked = checkValid()
+        checkValid()
         
-        // if(checked){
+        // if(checkValid()){
         //     var form = new FormData();
         //     const fileReplaced = file.replace("data:image/jpeg;base64,", "");
         //     console.log(fileReplaced)
         //     form.append('pictureZoo',fileReplaced);
-        //     form.append('scientificName',state.name);
-        //     form.append('name',state.nickname);
-        //     form.append('zooWing_id',state.zooWing);
         //     form.append('email',state.email);
         //     form.append('password',state.password);
         //     form.append('accessType_id',state.accessType_id);
@@ -228,6 +200,7 @@ const RegisterAnimal = () =>{
         // }else{
         //     console.log()
         // }
+        e.preventDefault();
     }
 
 
@@ -239,11 +212,11 @@ const RegisterAnimal = () =>{
                 <form onSubmit={handleSubmit} style={{ boxShadow: '-0.51em 0.7em 1em #9a9a9a', borderRadius:'0.5rem',  justifyContent:' center',  padding: '0rem 5rem', width: '40rem' , display:'flex',flexDirection: 'column',backgroundColor: "#FFFFFF"}}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sx={{marginTop:'3rem'}}>
-                            <h1>Animal Personal Data</h1>
+                            <h1>Keeper Personal Data</h1>
                             <p>Todos os campos são obrigatorios</p>
                         </Grid>
                         <Grid item xs={12}>
-                            <InputLabel style={{ borderRadius: 10, width:'45%' }} htmlFor="standard-adornment-password">Nome Cientifico</InputLabel>
+                            <InputLabel style={{ borderRadius: 10, width:'45%' }} htmlFor="standard-adornment-password">Nome</InputLabel>
                             <TextField  onChange={handleChange}
                                 style={{ backgroundColor:'#FFFFFF', borderRadius: 8, width:'100%' , marginBottom:"1rem"}}
                                 error={valid['name'] === false}
@@ -254,46 +227,23 @@ const RegisterAnimal = () =>{
                             />
                             
                         </Grid>
-
-                        
-                        <Grid item xs={6}>
-                            <InputLabel style={{ borderRadius: 10, width:'45%' }} htmlFor="standard-adornment-password">Apelido</InputLabel>
-                            <TextField  onChange={handleChange}
-                                style={{ borderRadius: 8, width:'100%' , marginBottom:"1rem"}}
-                                type={'text'}
-                                name={'nickname'}
-                                helperText={fieldValidationErrors['nickname']}
-                                error={valid['nickname'] == false}
-                            />  
-                        </Grid>
-                        <Grid item xs={6}>
-                            <InputLabel style={{ borderRadius: 10, width:'45%' }} htmlFor="standard-adornment-password">Ala do zoológico</InputLabel>
-                            <TextField  onChange={handleChange}
-                                style={{ borderRadius: 8, width:'100%' , marginBottom:"1rem"}}
-                                type={'text'}
-                                name={'zooWing'}
-                                helperText={fieldValidationErrors['zooWing']}
-                                error={valid['zooWing'] == false}
-                            /> 
-                        </Grid>
-
                         <Grid item xs={12}>
                             <InputFile className={""} name={'file'} accept={""} onChange={handleChange} message={"Somente aquivos JPEG, JPG e PNG."}/> 
                         </Grid>
                             
                         <Grid item xs={12} sx={{marginTop:'3rem'}}>
-                            <h1>Animal Auth Data</h1>
+                            <h1>Keeper Auth Data</h1>
                             <p>Todos os campos são obrigatorios</p>
                         </Grid>
                         <Grid item xs={6}>
                             <InputLabel style={{ borderRadius: 10, width:'45%' }} htmlFor="standard-adornment-password">Email</InputLabel>
                             <TextField  onChange={handleChange}
                                 style={{ borderRadius: 8, width:'100%' , marginBottom:"1rem"}}
-                                type={'text'}
+                                type={'email'}
                                 name={'email'}
                                 helperText={fieldValidationErrors['email']}
                                 error={valid['email'] == false}
-                                /> 
+                            /> 
                         </Grid>
                         <Grid item xs={6}>
                             <InputLabel style={{ borderRadius: 10, width:'45%' }} htmlFor="standard-adornment-password">Senha</InputLabel>
@@ -328,4 +278,4 @@ const RegisterAnimal = () =>{
 
     )
 }
-export default RegisterAnimal;
+export default RegisterZelador;

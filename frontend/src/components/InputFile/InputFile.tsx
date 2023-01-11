@@ -44,6 +44,7 @@ const InputFile =  (props: {
         accept: string,
         onChange:any;
         message:string;
+        name:string,
     }) => {
 
     const [data, setData] = React.useState<any | null>(null);
@@ -65,7 +66,7 @@ const InputFile =  (props: {
                 </div>
                 
             </label>
-            <input id="inputFile" name="file"type="file" onChange={handleChange} className={props.className} accept={props.accept} style={mystyle}/>
+            <input id="inputFile" type="file" onChange={handleChange} className={props.className} name={props.name} accept={props.accept} style={mystyle}/>
         </div>
     ) 
 }

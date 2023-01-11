@@ -88,7 +88,7 @@ const VerticalNavBar = () =>{
                         </Box>
                         
                         <Box component="div" className={styles.linkSubItem}>
-                            <Link className={styles.link}  to="/">
+                            <Link className={styles.link}  to="/overview-animal">
                                 <SubjectIcon sx={{ width: "1.2rem", marginRight:"0.5rem"}}/>
                                 Overview
                             </Link>
@@ -122,7 +122,7 @@ const VerticalNavBar = () =>{
                     <Collapse in={openD} timeout="auto" unmountOnExit>
                 
                         <Box component="div" className={styles.linkSubItem}>
-                            <Link className={styles.link}  to="/">
+                            <Link className={styles.link}  to="/add-keeper">
                                 <AppRegistrationOutlinedIcon sx={{ width: "1.2rem", marginRight:"0.5rem"}}/>
                                 Register Zeladores
                             </Link>
