@@ -4,6 +4,9 @@ import styles from "../css/createAnimal.module.css"
 import Button from '@mui/material/Button'
 import InputLabel from '@mui/material/InputLabel'
 import Input from '@mui/material/Input'
+import MenuItem from '@mui/material/MenuItem';
+import FormHelperText from '@mui/material/FormHelperText';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
@@ -29,8 +32,9 @@ import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import VerticalNavBar from '../components/VerticalNavBar/VerticalNavBar';
 import InputFile from '../components/InputFile/InputFile';
 import useAuthCheck from '../hooks/useAuthCheck';
-
 import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+
 
 const stylePicture = {
     backgroundColor:" #E0D9CF",
@@ -56,16 +60,33 @@ const getBase64 = (file: any) => {
       };
     });
 };
+
+
 const RegisterAnimal = () =>{
     
     const authUser = useSelector((state:any) => state.authUser)
     const dispatch = useDispatch();
 
 
+
     const [isTokenValid, checkToken] = useAuthCheck(authUser.currentUser.token)
+    
+    const [wing, setWing] = useState<any>([]);
+
+    function getUsers(){
+        var data = []
+        
+        axios.get('http://127.0.0.1:8000/api/data/wing').then((res) => {
+            if(res.data.status == 200){
+                setWing(res.data.data);
+            }
+        })
+    }
 
     useEffect(() => {
         checkToken()
+        getUsers()
+
     }, []);
 
     const [state, setState] = useState({
@@ -77,6 +98,8 @@ const RegisterAnimal = () =>{
         zooWing: '',
         accessType_id: '2',
     });
+
+    
 
     const [file, setFile] = useState<any>();
     
@@ -92,6 +115,7 @@ const RegisterAnimal = () =>{
         email: validEmail,
         password: validPassword,
         zooWing: validZooWing,
+        file: file,
     }
 
     const [fieldValidationErrors, setFieldValidationErrors ] = useState({
@@ -104,6 +128,7 @@ const RegisterAnimal = () =>{
     })
     
     const [showPassword, setShowPassword] = React.useState(false);
+    const [wingName, setWingName] = useState<any>("");
 
     
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -145,7 +170,7 @@ const RegisterAnimal = () =>{
             },
             zooWing:{
                 validate: () =>{
-                    const bool = value.length >= 1
+                    const bool = value != ""
                     setValidZooWing(bool)
                     fieldValidationErrors[fieldName as keyof typeof fieldValidationErrors] = bool ? '': 'A ala do zoologico deve ser valida';
                 }
@@ -153,7 +178,6 @@ const RegisterAnimal = () =>{
             },
             file: {
                 validate: () =>{
-                    console.log('a')
                     const bool = value.length >= 1
                     fieldValidationErrors[fieldName as keyof typeof fieldValidationErrors] = bool ? '': 'A foto do animal não foi escolhida';
                 }
@@ -162,9 +186,12 @@ const RegisterAnimal = () =>{
         objValidate[fieldName as keyof typeof objValidate]?.validate()
     }
     
-    const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e:/*React.ChangeEvent<HTMLInputElement | SelectChangeEvent>*/any) => {
         const name = e.target.name;
         const value = e.target.value;
+        if(name == "zooWing"){
+            setWingName(value)
+        }
         const file = e.target.files?.[0];
         if(name == 'file'){
             getBase64(file)
@@ -199,6 +226,7 @@ const RegisterAnimal = () =>{
         bool = setVisualError('email', bool)
         bool = setVisualError('password', bool)
         bool = setVisualError('zooWing', bool)
+        bool = setVisualError('file', bool)
         
         console.log(bool)
         return bool;
@@ -211,7 +239,6 @@ const RegisterAnimal = () =>{
         if(checked){
             var form = new FormData();
             const fileReplaced = file.replace("data:image/jpeg;base64,", "");
-            console.log(fileReplaced)
             form.append('pictureUser',fileReplaced);
             form.append('scientificName',state.name);
             form.append('name',state.nickname);
@@ -221,11 +248,8 @@ const RegisterAnimal = () =>{
             form.append('accessType_id',state.accessType_id);
     
             
-            const config = {
-                headers: { Authorization: "Bearer "+authUser.currentUser.token }
-            };
             try {
-                axios.post('http://127.0.0.1:8000/api/animals',form, config).then((res) => {
+                axios.post('http://127.0.0.1:8000/api/animals',form).then((res) => {
                     console.log(res)
                     }
                 )
@@ -278,17 +302,30 @@ const RegisterAnimal = () =>{
                         </Grid>
                         <Grid item xs={6}>
                             <InputLabel style={{ borderRadius: 10, width:'45%' }} htmlFor="standard-adornment-password">Ala do zoológico</InputLabel>
-                            <TextField  onChange={handleChange}
-                                style={{ borderRadius: 8, width:'100%' , marginBottom:"1rem"}}
-                                type={'text'}
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={wingName}
+                                label="Age"input={<OutlinedInput />}
+                                onChange={handleChange}
                                 name={'zooWing'}
-                                helperText={fieldValidationErrors['zooWing']}
-                                error={valid['zooWing'] == false}
-                            /> 
+                                style={{ borderRadius: 8, width:'100%'}}
+                                error={valid['zooWing'] == false}>
+                                {wing?.map((w:any) => (
+                                    <MenuItem
+                                    key={w.id}
+                                    value={w.id}
+                                    >
+                                    {w.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                            <FormHelperText sx={{ color:'#d32f2f', marginBottom:"1rem"}}>{fieldValidationErrors['zooWing']}</FormHelperText>
                         </Grid>
 
                         <Grid item xs={12}>
                             <InputFile className={""} name={'file'} accept={""} onChange={handleChange} message={"Somente aquivos JPEG, JPG e PNG."}/> 
+                            <FormHelperText sx={{ color:'#d32f2f', marginBottom:"1rem"}}>{fieldValidationErrors['file']}</FormHelperText>
                         </Grid>
                             
                         <Grid item xs={12} sx={{marginTop:'3rem'}}>

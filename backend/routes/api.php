@@ -7,6 +7,7 @@ Route::group(['middleware' => ['guest:api']], function(){
 
     Route::post('login', 'API\LoginController@login');
     Route::post('animals', 'API\AnimalsController@createAnimal');
+    Route::get('data/wing', 'API\DataController@getWingList');
 });
 
 

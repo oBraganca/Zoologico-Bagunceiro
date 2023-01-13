@@ -24,7 +24,11 @@ const HomeApp = () =>{
     return(
         <Container class={styles.container}>
            <VerticalNavBar/>
-            <HomeAppAnimal/>
+            {authUser.currentUser.accessType_id == 1? 
+            null
+            
+            :<HomeAppAnimal/>}
+            
 
         </Container>
 

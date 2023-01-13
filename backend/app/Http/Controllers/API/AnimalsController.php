@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Models\AccessType;
+use App\Models\ZooWing;
 use GuzzleHttp\Client;
 use Illuminate\Support\Str;
 
@@ -73,7 +74,7 @@ class AnimalsController extends Controller
 
 
         
-        $request['zooWing_id'] = AccessType::find($request['zooWing_id'])->id;
+        $request['zooWing_id'] = ZooWing::find($request['zooWing_id'])->id;
         
         $animal = Animal::create([
             'scientificName'=>$request['scientificName'], 
