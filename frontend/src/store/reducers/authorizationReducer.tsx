@@ -34,6 +34,7 @@ const authorizationReducer = (state= INITIAL_STATE, action:any) => {
                 loggedIn: false,
                 currentUser: {}
             };
+
         default:
             return state;
     }      
