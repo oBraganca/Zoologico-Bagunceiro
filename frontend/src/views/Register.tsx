@@ -56,7 +56,7 @@ const getBase64 = (file: any) => {
       };
     });
 };
-const RegisterAnimal = () =>{
+const Register= () =>{
     
     const authUser = useSelector((state:any) => state.authUser)
     const dispatch = useDispatch();
@@ -243,9 +243,7 @@ const RegisterAnimal = () =>{
 
     return(
         <Container class={styles.container}>
-           <VerticalNavBar/>
-
-            <Box component="div" sx={{height:'100%', marginLeft: '17.5rem', padding: '1.5rem', display:'flex', backgroundColor: "#f5f5f5    ", justifyContent:'center', alignItems:"center"}}>
+            <Box component="div" sx={{height:'100%', padding: '1.5rem', display:'flex', backgroundColor: "#f5f5f5    ", justifyContent:'center', alignItems:"center"}}>
                 <form onSubmit={handleSubmit} style={{ boxShadow: '-0.51em 0.7em 1em #9a9a9a', borderRadius:'0.5rem',  justifyContent:' center',  padding: '0rem 5rem', width: '40rem' , display:'flex',flexDirection: 'column',backgroundColor: "#FFFFFF"}}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sx={{marginTop:'3rem'}}>
@@ -338,4 +336,4 @@ const RegisterAnimal = () =>{
 
     )
 }
-export default RegisterAnimal;
+export default Register;

@@ -30,6 +30,7 @@ import VerticalNavBar from '../components/VerticalNavBar/VerticalNavBar';
 import InputFile from '../components/InputFile/InputFile';
 
 import TextField from '@mui/material/TextField';
+import useAuthCheck from '../hooks/useAuthCheck';
 
 const stylePicture = {
     backgroundColor:" #E0D9CF",
@@ -57,7 +58,13 @@ const getBase64 = (file: any) => {
 };
 const RegisterZelador = () =>{
     
-    const authentication = useSelector((state:any) => state.authUser)
+    const authUser = useSelector((state:any) => state.authUser)
+    const [isTokenValid, checkToken] = useAuthCheck(authUser.currentUser.token)
+
+    useEffect(() => {
+        checkToken()
+    }, []);
+    
     const dispatch = useDispatch();
 
     const [state, setState] = useState({
@@ -176,30 +183,32 @@ const RegisterZelador = () =>{
     const handleSubmit = async (e:React.SyntheticEvent<HTMLFormElement>) => {
         checkValid()
         
-        // if(checkValid()){
-        //     var form = new FormData();
-        //     const fileReplaced = file.replace("data:image/jpeg;base64,", "");
-        //     console.log(fileReplaced)
-        //     form.append('pictureZoo',fileReplaced);
-        //     form.append('email',state.email);
-        //     form.append('password',state.password);
-        //     form.append('accessType_id',state.accessType_id);
+        if(checkValid()){
+            var form = new FormData();
+            const fileReplaced = file.replace("data:image/jpeg;base64,", "");
+            console.log(fileReplaced)
+            form.append('pictureUser',fileReplaced);
+            form.append('email',state.email);
+            form.append('password',state.password);
+            form.append('accessType_id',state.accessType_id);
     
-            
-        //     try {
-        //         axios.post('http://127.0.0.1:8000/api/register-animals',form).then((res) => {
-        //             console.log(res)
-        //             }
-        //         )
+            const config = {
+                headers: { Authorization: "Bearer "+authUser.currentUser.token }
+            };
+            try {
+                axios.post('http://127.0.0.1:8000/api/keepers',form,config ).then((res) => {
+                    console.log(res)
+                    }
+                )
                 
-        //     } catch (error) {
-        //         console.log(error)
-        //     } finally {
-        //     }
+            } catch (error) {
+                console.log(error)
+            } finally {
+            }
 
-        // }else{
-        //     console.log()
-        // }
+        }else{
+            console.log()
+        }
         e.preventDefault();
     }
 
