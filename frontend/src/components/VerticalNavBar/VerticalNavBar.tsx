@@ -21,11 +21,12 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
 import OutlinedInput from '@mui/material/OutlinedInput'
-
+import JoinFullIcon from '@mui/icons-material/JoinFull';
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
@@ -37,9 +38,13 @@ import StarBorder from '@mui/icons-material/StarBorder';
 import PetsIcon from '@mui/icons-material/Pets';
 import AppRegistrationOutlinedIcon from '@mui/icons-material/AppRegistrationOutlined';
 import SubjectIcon from '@mui/icons-material/Subject';
+import { useSelector, useDispatch} from 'react-redux';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const VerticalNavBar = () =>{
-    // const authentication = useSelector((state:any) => state.authUser) 
+
+    const authUser = useSelector((state:any) => state.authUser)  
+    const dispatch = useDispatch(); 
 
     const [open, setOpen] = React.useState(false);
     const [openD, setOpenD] = React.useState(false);
@@ -47,6 +52,21 @@ const VerticalNavBar = () =>{
     const handleClick = () => {
         setOpen(!open);
     };
+
+    const handleLogout = () =>{
+        dispatch({
+            type: 'NO_HAS_ANIMAL',
+            payload:{
+            }
+        })
+        dispatch({
+            type: 'NOT_AUTHENTICATED', 
+            payload:{
+            }
+        })
+        
+
+    }
         
     const handleClickD = () => {
         setOpenD(!openD);
@@ -59,90 +79,93 @@ const VerticalNavBar = () =>{
                 <KeyboardTabIcon  sx={{ color:'#383838',backgroundColor: '#E0D9CF', padding: '0.4rem', width: '1rem', height: '1rem', borderRadius: '0.3rem'}} />
             </Box>
             <Box component="div" className={styles.navItem} sx={{marginTop: '0.8rem'}}>
-                <Box component="div" className={styles.linkItem}>
-                    <Link className={styles.link+" "+styles.active}  to="/">
-                        <IconDash className={styles.icon}/>
-                        Dashboard
-                    </Link>
-                </Box>
-                
-                <Box component="div" className={styles.linkItem}>
-                    
-                    <Link className={styles.link} onClick={handleClick} to="">
-                        <PetsIcon sx={{ width: "1.2rem", marginRight:"0.5rem"}}/>
-                        Animals
-                        
-                        {open ? <ExpandLess sx={{ width: "2rem", marginLeft:"7.5rem"}} /> : <ExpandMore sx={{ width: "2rem", marginLeft:"7.5rem"}} />}
-                    </Link>
-                    
-                </Box>
+                {authUser.currentUser.accessType_id == 1 ?(
+                    <div className={styles.navItem}>
 
-                <Box component="div" className={styles.fatherLinkItem}>
-                    <Collapse in={open}  timeout="auto" unmountOnExit>
-                
-                        <Box component="div" className={styles.linkSubItem}>
-                            <Link className={styles.link}  to="/add-animal">
-                                <AppRegistrationOutlinedIcon sx={{ width: "1.2rem", marginRight:"0.5rem"}}/>
-                                Register Animals
+                        <Box component="div" className={styles.linkItem}>
+                            <Link className={styles.link+" "+styles.active}  to="/">
+                                <IconDash className={styles.icon}/>
+                                Dashboard
                             </Link>
                         </Box>
-                        
-                        <Box component="div" className={styles.linkSubItem}>
-                            <Link className={styles.link}  to="/overview-animal">
-                                <SubjectIcon sx={{ width: "1.2rem", marginRight:"0.5rem"}}/>
-                                Overview
+
+                        <Box component="div" className={styles.linkItem}>
+                            
+                            <Link className={styles.link} onClick={handleClick} to="">
+                                <PetsIcon sx={{ width: "1.2rem", marginRight:"0.5rem"}}/>
+                                Animals
+                                
+                                {open ? <ExpandLess sx={{ width: "2rem", marginLeft:"7.5rem"}} /> : <ExpandMore sx={{ width: "2rem", marginLeft:"7.5rem"}} />}
+                            </Link>
+                            
+                        </Box>
+
+                        <Box component="div" className={styles.fatherLinkItem}>
+                            <Collapse in={open}  timeout="auto" unmountOnExit>
+
+                                <Box component="div" className={styles.linkSubItem}>
+                                    <Link className={styles.link}  to="/add-animal">
+                                        <AppRegistrationOutlinedIcon sx={{ width: "1.2rem", marginRight:"0.5rem"}}/>
+                                        Register Animals
+                                    </Link>
+                                </Box>
+                                
+                                <Box component="div" className={styles.linkSubItem}>
+                                    <Link className={styles.link}  to="/overview-animal">
+                                        <SubjectIcon sx={{ width: "1.2rem", marginRight:"0.5rem"}}/>
+                                        Overview
+                                    </Link>
+                                </Box>
+                            </Collapse>
+                        </Box>
+
+                        <Box component="div" className={styles.linkItem}>
+                            <Link className={styles.link} onClick={handleClickD} to="">
+                                <GroupIcon sx={{ width: "1.2rem", marginRight:"0.5rem"}}/>
+                                Team
+                                
+                                {openD ? <ExpandLess sx={{ width: "2rem", marginLeft:"8.45rem"}} /> : <ExpandMore sx={{ width: "2rem", marginLeft:"8.45rem"}} />}
                             </Link>
                         </Box>
-                        
-                        {/* <Box component="div" className={styles.linkSubItem}>
+                        <Box component="div" className={styles.fatherLinkItem}>
+                            <Collapse in={openD} timeout="auto" unmountOnExit>
+
+                                <Box component="div" className={styles.linkSubItem}>
+                                    <Link className={styles.link}  to="/add-keeper">
+                                        <AppRegistrationOutlinedIcon sx={{ width: "1.2rem", marginRight:"0.5rem"}}/>
+                                        Register Zeladores
+                                    </Link>
+                                </Box>
+                                
+                                <Box component="div" className={styles.linkSubItem}>
+                                    <Link className={styles.link}  to="/">
+                                        <SubjectIcon sx={{ width: "1.2rem", marginRight:"0.5rem"}}/>
+                                        Overview
+                                    </Link>
+                                </Box>
+                            </Collapse>
+                        </Box>
+                    </div>
+                ):(
+                    <div className={styles.navItem}>
+
+                        <Box component="div" className={styles.linkItem}>
+                            <Link className={styles.link+" "+styles.active}  to="/">
+                                <FavoriteIcon sx={{  width: '1rem', height: '1rem',marginRight:"0.5rem"}} className={styles.icon}/>
+                                Match dos animais
+                            </Link>
+                        </Box>
+
+                        <Box component="div" className={styles.linkItem}>
                             <Link className={styles.link}  to="/">
-                                <CalendarMonthIcon sx={{ width: "1.2rem", marginRight:"0.5rem"}}/>
-                                Calendar
-                            </Link>
-                        </Box> */}
-                    </Collapse>
-                </Box>
-                
-                
-                <Box component="div" className={styles.linkItem}>
-                    <Link className={styles.link}  to="/">
-                        <CalendarMonthIcon sx={{ width: "1.2rem", marginRight:"0.5rem"}}/>
-                        Calendar
-                    </Link>
-                </Box>
-                <Box component="div" className={styles.linkItem}>
-                    <Link className={styles.link} onClick={handleClickD} to="">
-                        <GroupIcon sx={{ width: "1.2rem", marginRight:"0.5rem"}}/>
-                        Team
-                        
-                        {openD ? <ExpandLess sx={{ width: "2rem", marginLeft:"8.45rem"}} /> : <ExpandMore sx={{ width: "2rem", marginLeft:"8.45rem"}} />}
-                    </Link>
-                </Box>
-                <Box component="div" className={styles.fatherLinkItem}>
-                    <Collapse in={openD} timeout="auto" unmountOnExit>
-                
-                        <Box component="div" className={styles.linkSubItem}>
-                            <Link className={styles.link}  to="/add-keeper">
-                                <AppRegistrationOutlinedIcon sx={{ width: "1.2rem", marginRight:"0.5rem"}}/>
-                                Register Zeladores
+                                <JoinFullIcon sx={{  width: '1rem', height: '1rem',marginRight:"0.5rem"}} />
+                                Matched
                             </Link>
                         </Box>
-                        
-                        <Box component="div" className={styles.linkSubItem}>
-                            <Link className={styles.link}  to="/">
-                                <SubjectIcon sx={{ width: "1.2rem", marginRight:"0.5rem"}}/>
-                                Overview
-                            </Link>
-                        </Box>
-                        
-                        {/* <Box component="div" className={styles.linkSubItem}>
-                            <Link className={styles.link}  to="/">
-                                <CalendarMonthIcon sx={{ width: "1.2rem", marginRight:"0.5rem"}}/>
-                                Calendar
-                            </Link>
-                        </Box> */}
-                    </Collapse>
-                </Box>
+                    </div>
+
+                )}
+                
                 <hr style={{marginTop:'0.7rem'}} />
                 <Box component="div" style={{marginTop:'0.7rem'}} className={styles.linkItem}>
                     <Link className={styles.link}  to="/">
@@ -150,14 +173,20 @@ const VerticalNavBar = () =>{
                         Settings
                     </Link>
                 </Box>
+                <Box component="div" style={{marginTop:'0.7rem'}} className={styles.linkItem}>
+                    <Link to='' className={styles.link}  onClick={handleLogout}>
+                        <LogoutIcon  sx={{  width: '1rem', height: '1rem',marginRight:"0.5rem"}} className={styles.icon}/>
+                        Logout
+                    </Link>
+                </Box>
                 
             </Box>
-
+            
             <Box component="div" className={styles.navItem+" "}>
 
                 <Box component="div" className={styles.card+" "}>
                     <Box component="div" className={styles.cardPeople+" "}>
-                        ZELADORES
+                        {authUser.currentUser.accessType_id == 1 ? 'ZELADORES' : 'MATCHS'}
 
                     </Box>
                     <Box component="div" className={styles.cardContent+" "}>
@@ -181,12 +210,12 @@ const VerticalNavBar = () =>{
             </Box>
             
             <Box component="div" className={styles.navItem}>
-                <Box component="div" className={styles.cardProfile}>
-                    <Image class={styles.profileImage} url={window.location.origin + "/images/Portrait2.png"} alt="BigCo Inc. logo"/> 
+                <Box component="div" className={styles.cardProfile} sx={{whiteSpace: 'nowrap', overflow: 'hidden',textOverflow: 'ellipsis',direction: 'ltr'}}>
+                    <Image class={styles.profileImage} url={authUser.currentUser.pictureProfile} alt="BigCo Inc. logo"/> 
                             
                     <Box component="div" className={styles.cardProfileInfo}>
-                        <p className={styles.cardProfileName}>Alicia Ferrara</p>
-                        <p className={styles.cardProfileEmail}>hola@alicia.ferrara</p>
+                        <p className={styles.cardProfileName}>{authUser.currentUser.email}</p>
+                        <p className={styles.cardProfileEmail}>{authUser.currentUser.name}</p>
                     </Box>
                 </Box>
             </Box>
