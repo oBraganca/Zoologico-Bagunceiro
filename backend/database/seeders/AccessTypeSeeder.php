@@ -17,6 +17,18 @@ class AccessTypeSeeder extends Seeder
      */
     public function run()
     {
-        AccessTypeFactory::new()->count(1)->create();
+        $access = [
+            [
+                'id' => 1,
+                'name' => 'Zelador',
+                'desc' => 'Permissão de administrdores'
+            ],
+            [
+                'id' => 2,
+                'name' => 'Animal',
+                'desc' => 'Permissão de usuario comum'
+            ]
+        ];
+        AccessTypeFactory::new()->createMany($access);
     }
 }
