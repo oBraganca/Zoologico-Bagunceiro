@@ -13,11 +13,6 @@ use App\Models\AccessType;
 class UserFactory extends Factory
 {
     protected $model = \App\Models\User::class;
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition()
     {
         return [
@@ -27,15 +22,9 @@ class UserFactory extends Factory
             'password' => Hash::make('zelador123'), // password
             'remember_token' => Str::random(10),
             'accessType_id' => AccessType::find(1)->id,
-            'pictureUser' => "",
+            'pictureUser' => "https://i.imgur.com/kxFHfYY.jpg",
         ];
     }
-
-    /**
-     * Indicate that the model's email address should be unverified.
-     *
-     * @return static
-     */
     public function unverified()
     {
         return $this->state(fn (array $attributes) => [

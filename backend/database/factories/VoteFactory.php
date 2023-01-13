@@ -1,11 +1,14 @@
 <?php
 
 namespace Database\Factories;
+
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AccessType>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Vote>
  */
-class AccessTypeFactory extends Factory
+class VoteFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -14,9 +17,11 @@ class AccessTypeFactory extends Factory
      */
     public function definition()
     {
+        $id =  User::find(1)->id;
         return [
-            'name' => 'Zelador',
-            'desc' => 'Permissão de administrdores',
+            'name' => 'Like',
+            'desc' => 'Normal Like',
+            'create_by' => $id,
         ];
     }
 }
