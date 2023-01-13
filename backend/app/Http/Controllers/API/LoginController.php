@@ -25,7 +25,14 @@ class LoginController extends Controller
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 $token = $user->createToken('Laravel Password Grant Client')->accessToken;
-                $response = ['token' => $token, 'access_type'=> $user->accessType_id];
+                $response = [
+                    'token' => $token, 
+                    'access_type'=> $user->accessType_id,
+                    'pictureProfile' => $user->pictureUser,
+                    'email' => $user->email,
+                    'name' => $user->name,
+                    
+                ];
                 return response($response, 200);
             } else {
                 $response = ["message" => "Password mismatch"];
@@ -35,6 +42,10 @@ class LoginController extends Controller
             $response = ["message" =>'User does not exist'];
             return response($response, 422);
         }
+    }
+
+    public function auth(Request $request){
+        return response(['message'=>'Is valid', 'status'=>200], 200);
     }
 
     public function logout (Request $request) {

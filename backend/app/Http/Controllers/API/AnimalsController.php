@@ -7,25 +7,37 @@ use App\Models\Animal;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+use App\Models\AccessType;
+use GuzzleHttp\Client;
+use Illuminate\Support\Str;
 
 class AnimalsController extends Controller
 {
     public function getListAnimals(){
-        $animals = Animal::get()->toJson(JSON_PRETTY_PRINT);
+        
+        // $animals = Animal::with('user_id')->get();
+        // $animals = Animal::get()->toJson(JSON_PRETTY_PRINT);
+
+        $animals = Animal::join('users', 'users.id', '=', 'animal.user_id')
+                ->join('zoo_wing', 'zoo_wing.id', '=', 'animal.zooWing_id')
+                ->selectRaw('animal.scientificName, users.name, users.id, users.pictureUser, zoo_wing.name AS ala')->get();
         
         return response($animals, 200);
     }
 
     public function getAnimal($id){
-        if(Animal::where('id', $id)->exists()) {
-        $animal = Animal::find($id)->toJson();
+        if(Animal::where('user_id', $id)->exists()) {
+            $animal = Animal::where("users.id", $id)->join('users', 'users.id', '=', 'animal.user_id')
+            ->join('zoo_wing', 'zoo_wing.id', '=', 'animal.zooWing_id')
+            ->selectRaw('animal.scientificName, users.name, users.id, users.email, users.password, zoo_wing.id AS ala')->get();
 
-        response($animal, 200);;
-    } else {
-        return response()->json([
-        "message" => "Animal not found"
-        ], 404);
-    }
+            return response($animal, 200);
+        } else {
+            return response()->json([
+            "message" => "Animal not found"
+            ], 404);
+        }
     }
 
     public function createAnimal (Request $request) {
@@ -93,22 +105,21 @@ class AnimalsController extends Controller
     }
 
     public function putAnimal(Request $request, $id){
-        if(Animal::where('id', $id)->exists()) {
+        if(User::where('id', $id)->exists()) {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
-                'scientificName' => 'string|max:255',
+                'scientificName' => 'required|string|max:255',
                 'zooWing_id' => 'required|string|max:255',
-                'pictureUser' => 'required|string',
+                'pictureUser' => 'string|nullable',
             ]);
-
-            if ($validator->fails())
-                return response(['errors'=>$validator->errors()->all()], 422);
             
-                
-            $animal = Animal::find($id);
-            $user = User::find($animal->user_id);
+            if ($validator->fails())
+            {
+                return response(['errors'=>$validator->errors()->all()], 422);
+            }
+            $user = User::find($id);
+            $animal = Animal::where('user_id',$user->id)->first();
             $user->name = $request['name'];
-            $user->email = $request['email'];
             $user->updated_at = date("Y-m-d H:i:s");
 
             

@@ -6,12 +6,15 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['guest:api']], function(){
 
     Route::post('login', 'API\LoginController@login');
+    Route::post('animals', 'API\AnimalsController@createAnimal');
 });
 
 
 Route::group(['middleware' => ['auth:api']], function(){
-    Route::post('keeper', 'API\KeepersController@createKeeper')->middleware('auth.admin');
-    Route::post('animals', 'API\AnimalsController@createAnimal');
+    Route::get('auth/check', 'API\LoginController@auth');
+    Route::get('match', 'API\MatchController@getAnimalNonVoted');
+    Route::post('match', 'API\MatchController@createHistoryVote');
+    Route::post('keepers', 'API\KeepersController@createKeeper')->middleware('auth.admin');
 
 
     
