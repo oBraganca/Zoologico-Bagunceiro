@@ -25,6 +25,7 @@ import {useEffect, useState, useCallback} from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch} from 'react-redux';
 import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
+import useAuthCheck from '../hooks/useAuthCheck';
 
 // import ROOT_INITIAL_STATE from '../reducer/authorizationReducer'
 type ROOT_INITIAL_STATE ={
@@ -35,16 +36,11 @@ type ROOT_INITIAL_STATE ={
 
 function Login(){
 
-    const authentication = useSelector((state:any) => state.authUser) 
+    const mathUser = useSelector((state:any) => state.math) 
+    const authUser = useSelector((state:any) => state.authUser) 
     const dispatch = useDispatch();
 
-    console.log(authentication.loggedIn, authentication.currentUser)
-    useEffect(() => {
-        if(authentication.loggedIn) {
-            console.log('a')
-        }
-        <Navigate to="/home" />
-    }, []);
+
     const [showPassword, setShowPassword] = React.useState(false);
 
     const [email, setEmail] = useState('');
@@ -55,7 +51,6 @@ function Login(){
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement> ) => {
         event.preventDefault();
     };
-
     const handleSubmit = async (e:React.SyntheticEvent<HTMLFormElement>) => {
         
         try {
@@ -68,6 +63,9 @@ function Login(){
                     payload:{
                         token:res.data.token, 
                         accessType_id:res.data.access_type,
+                        email:res.data.email, 
+                        name:res.data.name,
+                        pictureProfile:res.data.pictureProfile,
                     }
                     });
                 }
@@ -90,7 +88,7 @@ function Login(){
 
                     <Image class={styles.logo} url={window.location.origin + "/images/logo.png"} alt="BigCo Inc. logo"/>
             
-                    <InputLabel style={{ borderRadius: 50, width:'45%' }} htmlFor="standard-adornment-password">Email:{email}</InputLabel>
+                    <InputLabel style={{ borderRadius: 50, width:'45%' }} htmlFor="standard-adornment-password">Email:</InputLabel>
                     <OutlinedInput onChange={e => setEmail(e.target.value)}
                         style={{ borderRadius: 50, width:'50%' , marginBottom:"1rem"}}
                         type={'email'}
@@ -114,6 +112,7 @@ function Login(){
                     />  
                     
                     <Button type="submit" style={{ borderRadius: 50, width:'50%', padding:'1rem', backgroundColor: "#83626D", marginBottom:"0.5rem"}} variant="contained">Log in</Button>
+                    <Link style={{ display:'flex',justifyContent:'center' ,textDecoration:'none', color:'white', borderRadius: 50, width:'50%', padding:'0.5rem 0', backgroundColor: "#83626D"}} to="/register"><Button style={{ boxShadow: "none", backgroundColor: "transparent"}} variant="contained">Crie sua conta</Button></Link>
                     <Link style={{ display:'flex',justifyContent:'center' ,textDecoration:'none', color:'white', borderRadius: 50, width:'50%', padding:'0.5rem 0', backgroundColor: "#83626D"}} to="/home"><Button style={{ boxShadow: "none", backgroundColor: "transparent"}} variant="contained"><ArrowCircleLeftOutlinedIcon/>Voltar para o inicio</Button></Link>
             </form>
         </Container>

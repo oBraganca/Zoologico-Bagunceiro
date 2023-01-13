@@ -27,6 +27,7 @@ const HomePage = () =>{
                 <Link className={styles.link} to="/">SERVIÇOS</Link>
                 <Link className={styles.link} to="/">FALE CONOSCO</Link>
                 <Link className={styles.link} to="/login">LOGIN</Link>
+                <Link className={styles.link} to="/register">REGISTER</Link>
             </Navbar>
             <Box className={styles.content}>
                 <Image class={styles.homeBackground} url={window.location.origin + "/images/homeBackground.jpg"} alt="BigCo Inc. logo"/>

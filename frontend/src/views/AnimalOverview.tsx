@@ -7,34 +7,88 @@ import Avatar from '@mui/material/Avatar';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
+import { useSelector, useDispatch} from 'react-redux';
+import useAuthCheck from '../hooks/useAuthCheck';
+import axios from 'axios';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { Link } from "react-router-dom"
 
-const Comp1 = () =>{
+const Comp1 = (props:{
+    link:string,
+    name:string,
+    alt:string
+}) =>{
     return(
         <Grid container spacing={1} sx={{display:'flex', alignItems:'center'}}>
-            <Grid item sm={2}>
-                <Avatar alt="Remy Sharp" src="https://i.imgur.com/HjvOz6E.jpg"></Avatar>
+            <Grid item sm={4}>
+                <Avatar sx={{ width: 50, height: 50 }} alt={props.alt} src={props.link}></Avatar>
             </Grid>
             <Grid item>
-                Rei da floresta
+                {props.name}
+            </Grid>
+        </Grid>
+    )
+}
+const Comp2 = (props:{
+    id:string
+}) =>{
+    return(
+        <Grid container spacing={0} sx={{display:'flex', alignItems:'center'}}>
+            <Grid item >
+                <Link to={'/edit-animal/'+props.id}>
+                    <IconButton aria-label="delete" size="large">
+                        <EditIcon  id={props.id} sx={{color:"#1da4ec"}} fontSize="inherit" />
+                    </IconButton>
+                </Link>
+            </Grid>
+            <Grid item>
+                
+            <IconButton aria-label="delete" size="large">
+                <DeleteIcon id={props.id} sx={{ color: '#ff4242' }} fontSize="inherit" /> </IconButton>
             </Grid>
         </Grid>
     )
 }
 
-const data = [
-    {
-        name: <Comp1/>,
-        age: 30,
-    },
-    {
-        name: 'Sara',
-        age: 25,
-    },
-]
 
+
+<IconButton aria-label="delete" size="large">
+<DeleteIcon fontSize="inherit" />
+</IconButton>
 const AnimalOverview = () => {
-    // const [data, setData] = useState(empList)
+    const [data2, setData2] = useState([]);
+    const [data, setData] = useState([]);
+    const authUser = useSelector((state:any) => state.authUser)
+    
+    const [isTokenValid, checkToken] = useAuthCheck(authUser.currentUser.token)
+    
+    useEffect(() => {
+        checkToken()
 
+        const config = {
+            headers: { Authorization: "Bearer "+authUser.currentUser.token }
+        };
+        
+        axios.get('http://127.0.0.1:8000/api/animals',config ).then((res) => {
+                let array:any = []
+                res.data?.map( (x:any) => {
+                    array.push({
+                        name:<Comp1 name={x.name} link={x.pictureUser} alt={"Picture "+x.name} />,
+                        scientificName: x.scientificName,
+                        ala:x.ala,
+                        action: <Comp2 id={x.id}/>
+                    })
+
+                }) 
+                setData(array)
+            }
+        )
+    }, []);
+
+
+    
     const columns =  useMemo<MRT_ColumnDef[]>(
         () => [
             {
@@ -44,10 +98,22 @@ const AnimalOverview = () => {
                 Cell: ({ cell}:any) => <span>{cell.getValue()}</span>, //optional custom cell render
             },
             {
-                accessorFn: (row:any) => row.age, //alternate way
-                id: 'age', //id required if you use accessorFn instead of accessorKey
-                header: 'Age',
-                Header: () => <i>Age</i>, //optional custom header render
+                accessorKey: 'scientificName', //simple recommended way to define a column
+                header: 'Cientifico',
+                muiTableHeadCellProps: { sx: { color: 'green' } }, //optional custom props
+                Cell: ({ cell}:any) => <span>{cell.getValue()}</span>, //optional custom cell render
+            },
+            {
+                accessorKey: 'ala', //simple recommended way to define a column
+                header: 'Ala',
+                muiTableHeadCellProps: { sx: { color: 'green' } }, //optional custom props
+                Cell: ({ cell}:any) => <span>{cell.getValue()}</span>, //optional custom cell render
+            },
+            {
+                accessorKey: 'action', //simple recommended way to define a column
+                header: 'Ação',
+                muiTableHeadCellProps: { sx: { color: 'green' } }, //optional custom props
+                Cell: ({ cell}:any) => <span>{cell.getValue()}</span>, //optional custom cell render
             },
         ],
         [],
@@ -56,7 +122,7 @@ const AnimalOverview = () => {
     const [rowSelection, setRowSelection] = useState({});
 
     useEffect(() => {
-        //do something when the row selection changes
+        
     }, [rowSelection]);
 
     const tableInstanceRef = useRef(null);
@@ -68,7 +134,7 @@ const AnimalOverview = () => {
 
             <Box component="div" sx={{height:'100vh', marginLeft: '17.5rem', padding: '1.5rem', display:'flex', backgroundColor: "#f5f5f5", justifyContent:'center', alignItems:"center"}}>
                 
-                <Box  component="div" style={{height:'100%', borderRadius:'0.5rem',  justifyContent:' center',  padding: '0rem 5rem', width: '70rem' , display:'flex',flexDirection: 'column',backgroundColor: "#FFFFFF"}}>
+                <Box  component="div" style={{height:'100%', borderRadius:'0.5rem',  justifyContent:' center',  padding: '0rem 5rem', width: '57rem' , display:'flex',flexDirection: 'column',backgroundColor: "#FFFFFF"}}>
                 <MaterialReactTable 
                     columns={columns} 
                     data={data} 

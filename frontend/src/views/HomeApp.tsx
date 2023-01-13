@@ -2,6 +2,7 @@ import React, { Component, useState, useEffect } from 'react'
 import styles from '../css/homeApp.module.css';
 
 import Container from '../components/Container/Container';
+import HomeAppAnimal from '../components/HomeAppAnimal/HomeAppAnimal';
 
 import { useSelector, useDispatch} from 'react-redux';
 
@@ -9,13 +10,21 @@ import { useSelector, useDispatch} from 'react-redux';
 import VerticalNavBar from '../components/VerticalNavBar/VerticalNavBar';
 
 import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
+import useAuthCheck from '../hooks/useAuthCheck';
 
 const HomeApp = () =>{
     
-    const authentication = useSelector((state:any) => state.authUser) 
+    const authUser = useSelector((state:any) => state.authUser) 
+    const [isTokenValid, checkToken] = useAuthCheck(authUser.currentUser.token)
+
+    useEffect(() => {
+        console.log(authUser)
+        checkToken()
+    }, []);
     return(
         <Container class={styles.container}>
            <VerticalNavBar/>
+            <HomeAppAnimal/>
 
         </Container>
 

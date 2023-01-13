@@ -131,7 +131,10 @@ hr{
 
 .profileImage{
     height: 3rem;
+    width: 3rem;
     margin: .3rem;
+    border-radius: 100rem;
+    background-size: cover;
 }
 .cardProfileInfo{
     margin-left: 1rem;
