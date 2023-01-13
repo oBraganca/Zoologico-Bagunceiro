@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('scientificName');
             $table->unsignedBigInteger('zooWing_id');
             $table->foreign('zooWing_id')->references('id')->on('zoo_wing')->onDelete('cascade');
-            $table->integer('active');
             $table->timestamps();
         });
     }
