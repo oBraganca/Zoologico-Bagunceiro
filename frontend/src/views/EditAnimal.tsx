@@ -4,24 +4,19 @@ import styles from "../css/createAnimal.module.css"
 import Button from '@mui/material/Button'
 import InputLabel from '@mui/material/InputLabel'
 import Input from '@mui/material/Input'
+import MenuItem from '@mui/material/MenuItem';
+import FormHelperText from '@mui/material/FormHelperText';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box'
-// import Container from '@mui/material/Container';
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import Visibility from '@mui/icons-material/Visibility'
-import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
-import {Link } from "react-router-dom"
-import FormGroup from '@mui/material/FormGroup';
 
-import Navbar from  "../components/Navbar/Navbar";
-// import Link from '../components/Link/Link';
 import Container from '../components/Container/Container';
-import Image from '../components/Image/Image';
-// import Form from '../components/Form/Form';
 import {useEffect, useState, useCallback} from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch} from 'react-redux';
@@ -64,6 +59,10 @@ const EditAnimal = () =>{
     const {id} = useParams()
     
     const [isTokenValid, checkToken] = useAuthCheck(authUser.currentUser.token)
+    
+    const [wing, setWing] = useState<any>([]);
+    const [wingName, setWingName] = useState<any>("");
+
     const [data, setData] = useState([])
 
     const [state, setState] = useState({
@@ -91,10 +90,19 @@ const EditAnimal = () =>{
         nickname: validNickname,
         zooWing: validZooWing,
     }
+    function getWings(){
+        var data = []
+        
+        axios.get('http://127.0.0.1:8000/api/data/wing').then((res) => {
+            if(res.data.status == 200){
+                setWing(res.data.data);
+            }
+        })
+    }
 
     useEffect(() => {
         checkToken()
-
+        getWings()
         const config = {
             headers: { Authorization: "Bearer "+authUser.currentUser.token }
         };
@@ -107,6 +115,8 @@ const EditAnimal = () =>{
                 setValidZooWing(res.data[0]?.ala)
 
                 setState({...state, name:res.data[0]?.scientificName, nickname:res.data[0]?.name, zooWing:res.data[0]?.ala, email:res.data[0]?.email})
+                
+                setWingName(res.data[0]?.ala)
 
                 
             }
@@ -142,7 +152,7 @@ const EditAnimal = () =>{
             },
             zooWing:{
                 validate: () =>{
-                    const bool = value.length >= 1
+                    const bool = value != ""
                     setValidZooWing(bool)
                     fieldValidationErrors[fieldName as keyof typeof fieldValidationErrors] = bool ? '': 'A ala do zoologico deve ser valida';
                 }
@@ -152,10 +162,13 @@ const EditAnimal = () =>{
         objValidate[fieldName as keyof typeof objValidate]?.validate()
     }
     
-    const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e:any) => {
         const name = e.target.name;
         const value = e.target.value;
         const file = e.target.files?.[0];
+        if(name == "zooWing"){
+            setWingName(value)
+        }
         if(name == 'file'){
             getBase64(file)
             .then(result => {
@@ -264,16 +277,26 @@ const EditAnimal = () =>{
                             />  
                         </Grid>
                         <Grid item xs={6}>
-                            <InputLabel style={{ borderRadius: 10, width:'45%' }} htmlFor="standard-adornment-password">Ala do zoológico</InputLabel>
-                            <TextField  onChange={handleChange}
-                            
-                                value={state.zooWing}
-                                style={{ borderRadius: 8, width:'100%' , marginBottom:"1rem"}}
-                                type={'text'}
+                        <InputLabel style={{ borderRadius: 10, width:'45%' }} htmlFor="standard-adornment-password">Ala do zoológico</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={wingName}
+                                label="Age"input={<OutlinedInput />}
+                                onChange={handleChange}
                                 name={'zooWing'}
-                                helperText={fieldValidationErrors['zooWing']}
-                                error={valid['zooWing'] == false}
-                            /> 
+                                style={{ borderRadius: 8, width:'100%'}}
+                                error={valid['zooWing'] == false}>
+                                {wing?.map((w:any) => (
+                                    <MenuItem
+                                    key={w.id}
+                                    value={w.id}
+                                    >
+                                    {w.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                            <FormHelperText sx={{ color:'#d32f2f', marginBottom:"1rem"}}>{fieldValidationErrors['zooWing']}</FormHelperText>
                         </Grid>
 
                         <Grid item xs={12}>
