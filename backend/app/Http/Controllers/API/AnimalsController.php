@@ -133,6 +133,7 @@ class AnimalsController extends Controller
 
             $animal->scientificName = $request['scientificName'];
             $animal->updated_at = date("Y-m-d H:i:s");
+            $animal->zooWing_id = ZooWing::find($request['zooWing_id'])->id;
 
             $animal->save();
     
