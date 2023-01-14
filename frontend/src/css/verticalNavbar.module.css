@@ -1,12 +1,13 @@
 .navbar{
     position: fixed;
     width: 17.5rem;
-    height: 100vh;
-    border-right: #959595 1px solid;
+    height: 93vh;
+    top: 7vh;
+    background-color: #FFFFFFFF;
     overflow-y: auto;   
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     overflow-x: hidden;
     
 }
@@ -19,6 +20,48 @@
     align-items: center;
     font-size: 1rem;
 }
+.navItemProfile{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cardProfile{
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.5rem;
+    margin-top: 1.5rem ;
+}
+
+.profileImage{
+    height: 13rem;
+    width: 13rem;
+    border-radius: 1rem;
+    background-size: cover;
+}
+.cardProfileInfo{
+    display: flex;
+    height: 100%;
+    width: 13rem;
+    margin-top: .7rem;
+    flex-direction: column;
+    justify-content: center;
+}
+.cardProfileName{
+    font-weight: 500 bold;
+    color: #282828;
+    font-size: 1.3rem;
+    letter-spacing: -0.15px;
+    
+}
+.cardProfileEmail{
+    font-size: .9rem;
+    letter-spacing: -0.15px;
+    color: #4D4D4D;
+    font-weight: 500 bold;
+}
+
+
 a{
     color: #444444;
 }
@@ -40,7 +83,7 @@ a{
     margin-right:0.5rem
 }
 .linkItem{
-    padding: 0.60rem;
+    padding: 0.53rem;
     display: flex;
     width: 100%;
     color:#595959;
@@ -116,37 +159,4 @@ hr{
 .cardContentItemImage{
     height: 1.7rem;
     margin-right: 1rem;
-}
-
-.cardProfile{
-    display: flex;
-    align-items: center;
-    background-color:#D1E2C4;
-    width: 90%;
-    border-radius: 0.5rem;
-    padding-left: 0.3rem;
-    margin-top: 1rem;
-    margin-bottom: .5rem;
-}
-
-.profileImage{
-    height: 3rem;
-    width: 3rem;
-    margin: .3rem;
-    border-radius: 100rem;
-    background-size: cover;
-}
-.cardProfileInfo{
-    margin-left: 1rem;
-    display: flex;
-    height: 100%;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.cardProfileName{
-    font-weight: bold;
-}
-.cardProfileEmail{
-    font-size: 0.9rem;
 }
