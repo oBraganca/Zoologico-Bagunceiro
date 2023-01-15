@@ -6,6 +6,7 @@ import FormaImage from '../FormaImage/FormaImage';
 import IconMLike from '../Icons/IconMLike';
 import IconSuperlike from '../Icons/IconSuperlike';
 import IconX from '../Icons/IconX';
+import Typography from '@mui/material/Typography';
 
 import { useSelector, useDispatch} from 'react-redux';
 import axios from 'axios';
@@ -98,7 +99,7 @@ const HomeAppAnimal = () =>{
 
 
     return(
-        <Box component="div" sx={{height:'100%', marginLeft: '17.5rem', display:'flex', backgroundColor: "#f5f5f5",justifyContent:'center'}}>
+        <Box component="div" sx={{height:'100%', marginLeft: '1.0rem', display:'flex',justifyContent:'center'}}>
             <Backdrop
                 sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                 open={open}
@@ -108,31 +109,36 @@ const HomeAppAnimal = () =>{
             {mathUser.animal.message && !mathUser.asAnimal ?(
                 <h1 style={{height:'100vh'}}>{mathUser.animal.message}</h1>
             ):(
-                <Box>
-                    <Box component="div" className={styles.card} sx={{borderRadius:'.8rem',marginTop:'0.5rem',height:'33rem', display:'flex',flexDirection: 'column', backgroundColor: "#FFFFFF", alignItems:"center"}}>
-                        <FormaImage url={/*authUser.currentUser.pictureUser*/mathUser.animal.pictureUser} className={""}/>
+                <Box sx={{borderRadius:'.8rem',marginTop:'5.5rem',height:'34rem', display:'flex',flexDirection: 'row', alignItems:"center",}}>
+                    <Box component="div" className={styles.card} sx={{borderRadius:'.8rem',marginTop:'5.5rem',height:'34rem', display:'flex',flexDirection: 'column', backgroundColor: "#FFFFFF", alignItems:"center",width: '100%',}}>
+                        <FormaImage url={mathUser.animal.pictureUser} className={""}/>
                         
-                        <Box component="div" sx={{width:'90%',marginBottom:'.5rem'}}>
-                            <h1 style={{color:"#272727"}}>{mathUser.animal.nickname}</h1>
-                            <h4 style={{color:"#4B4B4B"}}>{mathUser.animal.nome}</h4>
-                            <h4 style={{color:"#4B4B4B"}}>{mathUser.animal.wing} do zoologico</h4>
+                        <Box sx={{borderRadius:'.8rem',marginTop:'0.5rem',height:'4rem', width: '100%',display:'flex',flexDirection: 'row', backgroundColor: "#FFFFFF", alignItems:"center",}}>
+                            <Box component="div" sx={{width:'90%',margin:'1.5rem'}}>
+                                <h1 style={{color:"#272727", fontSize:'2rem'}}>{mathUser.animal.nickname}</h1>
+                                <h4 style={{color:"#4B4B4B", fontSize:'1.2rem'}}>{mathUser.animal.nome}</h4>
+                                <h4 style={{color:"#4B4B4B", fontSize:'1.0rem'}}>{mathUser.animal.wing} do zoologico</h4>
+                            </Box>
+                            <Box component="div" sx={{ display:'flex',height:'5rem',justifyContent:"center", alignItems:"center",}} className={styles.card_buttom}>
+                                <Button onClick={handleClick} sx={{margin:"0 .5rem", backgroundColor:'#E2EAFF', padding:'.8rem',borderRadius:'.8rem'}} id='1'>
+                                    <IconX id='1'/>
+                                </Button>
+
+                                <Button onClick={handleClick} sx={{margin:"0 .5rem", backgroundColor:'#E2EAFF',borderRadius:'.8rem'}} id='3'>
+                                        <IconSuperlike id='2'/>
+                                </Button>
+                                
+                                <Button onClick={handleClick} sx={{ margin:"0 .5rem", backgroundColor:'#E2EAFF', padding:'.8rem',borderRadius:'.8rem'}} id='3'>
+                                    <IconMLike id='3'/>
+                                </Button>
+                            </Box>
                         </Box>
+                        <Box></Box>
                     </Box>
-                
-                    <Box component="div" sx={{ display:'flex',height:'5rem',justifyContent:"center", alignItems:"center", marginTop:'2rem'}} className={styles.card_buttom}>
-                            <Button onClick={handleClick} sx={{margin:"0 1rem"}} id='1'>
-                                <IconX id='1'/>
-                            </Button>
-
-                            <Button onClick={handleClick} sx={{margin:"0 1rem"}} id='3'>
-                                    <IconSuperlike id='2'/>
-                            </Button>
-                            
-                            <Button onClick={handleClick} sx={{margin:"0 1rem"}} id='3'>
-                                <IconMLike id='3'/>
-                            </Button>
-                    </Box>
-
+                    
+                    <Box>
+                            aaaaaa
+                        </Box>
                 </Box>
 
             )}
