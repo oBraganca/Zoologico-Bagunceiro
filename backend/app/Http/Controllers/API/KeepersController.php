@@ -23,6 +23,7 @@ class KeepersController extends Controller
             $item['encrypted_id'] = Crypt::encryptString($item['id']);
             return $item;
         });
+        $encryptedKeepers = $encryptedKeepers->values()->toArray();
         return response($encryptedKeepers, 200);
     }
 

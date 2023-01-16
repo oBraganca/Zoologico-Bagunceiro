@@ -92,7 +92,7 @@ class AnimalsController extends Controller
         );
 
         $token = $user->createToken('Laravel Password Grant Animals')->accessToken;
-        $response = ['status' => 'created'];
+        $response = ['status' => 'Animal cadastrado com sucesso'];
         return response($response, 201);
     }
 

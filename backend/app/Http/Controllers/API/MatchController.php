@@ -93,4 +93,45 @@ class MatchController extends Controller
         $response = ['status' => 200];
         return response($response, 200);
     }
+
+    public function getHistoryById($id){
+        
+
+        $userId = Crypt::decryptString($id);
+        $animal = Animal::where('user_id', $userId)->first();
+
+        $animalsLike = Animal::select('users.pictureUser','users.name','voting_history.vote_id', 'voting_history.created_at')
+        ->join('users', 'users.id', '=', 'animal.user_id')
+        ->join('voting_history', 'voting_history.by_animal_id', '=', 'animal.id')->where('voting_history.voted_animal_id', $animal->id)->whereIn('vote_id', [3,2])
+        ->take(3)->get();
+        $animalsDislike = Animal::select('users.pictureUser','users.name','voting_history.vote_id', 'voting_history.created_at')
+        ->join('users', 'users.id', '=', 'animal.user_id')
+        ->join('voting_history', 'voting_history.by_animal_id', '=', 'animal.id')->where('voting_history.voted_animal_id', $animal->id)->where('voting_history.vote_id', 1)
+        ->take(3)->get();
+        array_merge($animalsLike->toArray(), $animalsDislike->toArray());
+        $animals = $animalsLike->map(function ($item, $key) {
+            $datetime1 = new \DateTime($item['created_at']);
+            $datetime2 = new \DateTime('NOW');
+            $interval = $datetime1->diff($datetime2);
+            $message='';
+            if($interval->y > 0) {
+                $message = $interval->format('%Y years Ago');
+            } elseif($interval->m > 0) {
+                $message = $interval->format('%m month Ago');
+            } elseif($interval->d > 0) {
+                $message = $interval->format('%d days Ago');
+            } elseif($interval->h > 0) {
+                $message = $interval->format('%hH Ago');
+            } elseif($interval->i > 0) {
+                $message = $interval->format('%imin Ago');
+            } elseif($interval->s > 0) {
+                $message = $interval->format('%ssec Ago');
+            }
+
+            $item['message'] = $message;
+            return $item;
+        });
+
+        return response($animals->toArray(), 200);
+    }
 }

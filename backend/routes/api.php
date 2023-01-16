@@ -15,6 +15,7 @@ Route::group(['middleware' => ['auth:api']], function(){
     Route::get('auth/check', 'API\LoginController@auth');
     Route::get('match', 'API\MatchController@getAnimalNonVoted');
     Route::get('match/data/{id}', 'API\MatchController@getDataMatch');
+    Route::get('match/history/{id}', 'API\MatchController@getHistoryById');
     Route::post('match', 'API\MatchController@createHistoryVote');
     Route::post('keepers', 'API\KeepersController@createKeeper')->middleware('auth.admin');
     Route::get('keepers/', 'API\KeepersController@getListKeepers')->middleware('auth.admin');
