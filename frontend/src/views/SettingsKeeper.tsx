@@ -173,7 +173,6 @@ const SettingsKeeper = () =>{
     const handleSubmit = async (e:React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
         let checked = checkValid()
-        console.log(state)
         if(checked){
             const fileReplaced = file == null ? "" : file.replace("data:image/jpeg;base64,", "");
             const data = {

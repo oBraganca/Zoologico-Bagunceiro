@@ -143,7 +143,7 @@ const VerticalNavBar = () =>{
                             <Box component="div" className={styles.linkItem}>
                                 <Link className={styles.link+" "+styles.active}  to="/">
                                     <IconDash className={styles.icon}/>
-                                    Dashboard
+                                    Inicio
                                 </Link>
                             </Box>
 
@@ -210,15 +210,15 @@ const VerticalNavBar = () =>{
                                 <Stack direction="column" spacing={0}>
 
 
-                                    <Typography  style={{fontSize:'1.2rem', color:'#46c69a'}}>{like == null?  <Skeleton />  : like}</Typography >
+                                    <Typography  style={{fontSize:'1.2rem', color:'rgb(88 118 255)'}}>{like == null?  <Skeleton />  : like}</Typography >
                                     <Typography sx={{fontSize:'1rem', width:'3rem'}}>{like == null?  <Skeleton />  : "Likes"}</Typography >
                                 </Stack>
                                 <Stack direction="column" spacing={0}>
-                                    <Typography  style={{fontSize:'1.2rem', color:'#46c69a'}}>{dislike == null?  <Skeleton />  : dislike}</Typography >
+                                    <Typography  style={{fontSize:'1.2rem', color:'rgb(88 118 255)'}}>{dislike == null?  <Skeleton />  : dislike}</Typography >
                                     <Typography sx={{fontSize:'1rem', width:'3rem'}}>{dislike == null?  <Skeleton />  : "Dislike"}</Typography >
                                 </Stack>
                                 <Stack direction="column" spacing={0}>
-                                    <Typography  style={{fontSize:'1.2rem', color:'#46c69a'}}>{match == null?  <Skeleton />  : match}</Typography >
+                                    <Typography  style={{fontSize:'1.2rem', color:'rgb(88 118 255)'}}>{match == null?  <Skeleton />  : match}</Typography >
                                     <Typography sx={{fontSize:'1rem', width:'3rem'}}>{match == null?  <Skeleton />  : "Match"}</Typography >
                                 </Stack>
                             </Box>

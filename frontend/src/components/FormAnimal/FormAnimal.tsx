@@ -10,6 +10,8 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import FormHelperText from '@mui/material/FormHelperText';
 import Divider from '@mui/material/Divider';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -57,6 +59,12 @@ const getBase64 = (file: any) => {
     });
 };
 
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref,
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
 const FormAnimal = () =>{
     
@@ -105,6 +113,9 @@ const FormAnimal = () =>{
     const [validPassword, setValidPassword] = useState<any>(null);
     const [validZooWing, setValidZooWing] = useState<any>(null);
 
+    const [submitError, setSubmitError] = useState([]);
+    const [submitMessage, setSubmitMessage] = useState(null);
+    const [open, setOpen] = React.useState(false);
     const valid = {
         name: validName,
         nickname: validNickname,
@@ -224,7 +235,6 @@ const FormAnimal = () =>{
         bool = setVisualError('zooWing', bool)
         bool = setVisualError('file', bool)
         
-        console.log(bool)
         return bool;
     }
 
@@ -244,22 +254,24 @@ const FormAnimal = () =>{
             form.append('accessType_id',state.accessType_id);
     
             
-            try {
-                axios.post('http://127.0.0.1:8000/api/animals',form).then((res) => {
-                    console.log(res)
-                    }
-                )
-                
-            } catch (error) {
-                console.log(error)
-            } finally {
-            }
+            axios.post('http://127.0.0.1:8000/api/animals',form).then((res) => {
+                    setSubmitMessage(res.data.status);
+                    setOpen(true);
+                }
+            ).catch(function (error) {
+                setSubmitError(error.response.data.errors)
+                setOpen(true);
+            })
 
-        }else{
-            console.log()
         }
     }
-
+    const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        setOpen(false);
+    };
 
     return(
         <Box component="div" sx={{height:'100%', marginLeft: '17rem', padding: '1.0rem', display:'flex', justifyContent:'center', flexDirection:'column',alignItems:"center", width:'66.5rem'}}>
@@ -268,6 +280,27 @@ const FormAnimal = () =>{
                     <Grid xs={12}>
                     </Grid>
                 </Grid> */}
+                
+                    { submitMessage == null? null : (
+                        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                        {submitMessage}
+                        </Alert>
+                        </Snackbar> 
+
+                        
+
+                    )}
+                    { submitError.map(data=>(
+                            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                            <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                            {data}
+                            </Alert>
+                            </Snackbar> 
+                        
+
+                    ))}
+
                 <Grid container spacing={1}>
                     
                     <Grid item xs={12} style={{display:'flex'}}>

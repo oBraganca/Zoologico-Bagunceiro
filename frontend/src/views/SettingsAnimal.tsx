@@ -258,7 +258,8 @@ const SettingsAnimal = () =>{
     return(
         <Container class={styles.container}>
             <VerticalNavBar/>
-            <Box component="div" sx={{height:'100vh', marginLeft: '17rem', padding: '1.0rem', display:'flex', justifyContent:'center', flexDirection:'column',alignItems:"center", width:'66.5rem'}}>
+            <Box component="div" sx={{height:'100vh', marginLeft: '18rem',
+    padding: '1rem 0', display:'flex', justifyContent:'center', flexDirection:'column',alignItems:"center", width:'66.5rem'}}>
                 <form onSubmit={handleSubmit} style={{ marginTop:'3rem', borderRadius:'0.5rem',  justifyContent:' center', width: '60rem' , height: '100%',display:'flex',padding:'1.5rem',flexDirection: 'column',backgroundColor: "#FFFFFF"}}>
                     {/* <Grid container spacing={1}>
                         <Grid xs={12}>

@@ -1,6 +1,7 @@
 import React, { useMemo, useRef, useState, useEffect }from 'react';
 import VerticalNavBar from '../components/VerticalNavBar/VerticalNavBar';
 import Container from '../components/Container/Container';
+import styles from '../css/homeApp.module.css'
 
 import Box from '@mui/material/Box'
 import Avatar from '@mui/material/Avatar';
@@ -74,6 +75,7 @@ const AnimalOverview = () => {
         
         axios.get('http://127.0.0.1:8000/api/animals',config ).then((res) => {
                 let array:any = []
+                console.log(res.data)
                 res.data?.map( (x:any) => {
                     array.push({
                         name:<Comp1 name={x.name} link={x.pictureUser} alt={"Picture "+x.name} />,
@@ -139,12 +141,12 @@ const AnimalOverview = () => {
 
     return(
         
-        <Container class={''}>
+        <Container class={styles.container}>
            <VerticalNavBar/>
 
-            <Box component="div" sx={{height:'100vh', marginLeft: '17.5rem', padding: '1.5rem', display:'flex', backgroundColor: "#f5f5f5", justifyContent:'center', alignItems:"center"}}>
+            <Box component="div" sx={{height:'92.5vh', marginLeft: '17.5rem', padding: '1.5rem', display:'flex', justifyContent:'center', alignItems:"center"}}>
                 
-                <Box  component="div" style={{height:'100%', borderRadius:'0.5rem',  justifyContent:' center',  padding: '0rem 5rem', width: '57rem' , display:'flex',flexDirection: 'column',backgroundColor: "#FFFFFF"}}>
+                <Box  component="div" style={{height:'100%', borderRadius:'0.5rem', marginTop: '3rem',  justifyContent:' center',  padding: '0rem 5rem', width: '57rem' , display:'flex',flexDirection: 'column',backgroundColor: "#FFFFFF"}}>
                 <MaterialReactTable 
                     columns={columns} 
                     data={data} 

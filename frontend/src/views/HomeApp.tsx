@@ -3,6 +3,7 @@ import styles from '../css/homeApp.module.css';
 
 import Container from '../components/Container/Container';
 import HomeAppAnimal from '../components/HomeAppAnimal/HomeAppAnimal';
+import HomeAppKeeper from '../components/HomeAppKeeper/HomeAppKeeper';
 
 import { useSelector, useDispatch} from 'react-redux';
 
@@ -25,7 +26,7 @@ const HomeApp = () =>{
         <Container class={styles.container}>
            <VerticalNavBar/>
             {authUser.currentUser.accessType_id == 1? 
-            null
+            <HomeAppKeeper/>
             
             :<HomeAppAnimal/>}
             

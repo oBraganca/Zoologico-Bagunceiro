@@ -73,6 +73,7 @@ const KeeperOverview = () => {
         
         axios.get('http://127.0.0.1:8000/api/keepers',config ).then((res) => {
                 let array:any = []
+                console.log(res.data)
                 res.data?.map( (x:any) => {
                     array.push({
                         name:<Comp1 name={x.name} link={x.pictureUser} alt={"Picture "+x.name} />,
