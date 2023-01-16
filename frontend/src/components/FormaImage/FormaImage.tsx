@@ -23,7 +23,7 @@ const FormaImage = (props: {
                 </clipPath>
             </svg>
 
-            <div style={{borderRadius:'.8rem 0.8rem 0rem 0', width: '47rem', height: '350px',background: `turquoise url(${props.url})`, backgroundSize: 'cover', clipPath: 'url(#my-clip-path)'}}>
+            <div style={{borderRadius:'.8rem 0.8rem 0rem 0', width: '46rem', height: '350px',background: `turquoise url(${props.url})`, backgroundSize: 'cover', clipPath: 'url(#my-clip-path)'}}>
             </div>
         </div>
 

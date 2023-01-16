@@ -65,6 +65,7 @@ function Login(){
                         accessType_id:res.data.access_type,
                         email:res.data.email, 
                         name:res.data.name,
+                        id:res.data.id,
                         pictureProfile:res.data.pictureProfile,
                     }
                     });

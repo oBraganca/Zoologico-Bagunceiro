@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useState, useEffect} from 'react'
 import Navbar from  "../Navbar/Navbar";
 import Image from '../Image/Image';
 import IconSettings from '../Icons/IconSettings';
@@ -10,7 +10,10 @@ import {Link } from "react-router-dom";
 
 
 import Box from '@mui/material/Box';
-
+import Stack from '@mui/material/Stack';
+import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
+ 
 
 import BarChartIcon from '@mui/icons-material/BarChart';
 import GroupIcon from '@mui/icons-material/Group';
@@ -41,11 +44,16 @@ import AppRegistrationOutlinedIcon from '@mui/icons-material/AppRegistrationOutl
 import SubjectIcon from '@mui/icons-material/Subject';
 import { useSelector, useDispatch} from 'react-redux';
 import LogoutIcon from '@mui/icons-material/Logout';
+import axios from 'axios';
+import Skeleton from '@mui/material/Skeleton';
 
 const VerticalNavBar = () =>{
 
     const authUser = useSelector((state:any) => state.authUser)  
     const dispatch = useDispatch(); 
+    const [like, setLike] = React.useState(null);
+    const [match, setMatch] = React.useState(null);
+    const [dislike, setDislike] = React.useState(null);
 
     const [open, setOpen] = React.useState(false);
     const [openD, setOpenD] = React.useState(false);
@@ -53,6 +61,39 @@ const VerticalNavBar = () =>{
     const handleClick = () => {
         setOpen(!open);
     };
+
+    console.log(authUser.currentUser.accessType_id)
+    useEffect(() => {
+        if(authUser.currentUser.accessType_id==2){
+            const config = {
+                headers: { Authorization: "Bearer "+authUser.currentUser.token }
+            };
+            
+            axios.get('http://127.0.0.1:8000/api/match/data/'+authUser.currentUser.id,config ).then((res) => {
+                    let array:any = []
+                    // res.data?.map( (x:any) => {
+                    //     array.push({
+                    //         name:<Comp1 name={x.name} link={x.pictureUser} alt={"Picture "+x.name} />,
+                    //         scientificName: x.scientificName,
+                    //         ala:x.ala,
+                    //         action: <Comp2 id={x.encrypted_id}/>,
+                    //         subRows:{
+                    //             like:x.like,
+                    //             superlike:x.superlike,
+                    //             dislike:x.dislike
+                    //             }
+                    //     })
+    
+                    // })
+                    // console.log(res.data[0])
+                    setLike(res.data[0].like)
+                    setDislike(res.data[0].dislike)
+                    setMatch(res.data[0].match)
+                    // setData(array)
+                }
+            )
+        }
+    }, [like,match,dislike]);
 
     const handleLogout = () =>{
         dispatch({
@@ -155,7 +196,7 @@ const VerticalNavBar = () =>{
                                     </Box>
                                     
                                     <Box component="div" className={styles.linkSubItem}>
-                                        <Link className={styles.link}  to="/">
+                                        <Link className={styles.link}  to="/overview-keeper">
                                             <SubjectIcon sx={{ width: "1.2rem", marginRight:"0.5rem"}}/>
                                             Overview
                                         </Link>
@@ -165,6 +206,22 @@ const VerticalNavBar = () =>{
                         </div>
                     ):(
                         <div className={styles.navItem}>
+                            <Box component="div" sx={{margin:'2rem 0', width:'15rem', display:'flex', justifyContent:'space-around', flexDirection:'row', alignItems:'center'}}>
+                                <Stack direction="column" spacing={0}>
+
+
+                                    <Typography  style={{fontSize:'1.2rem', color:'#46c69a'}}>{like == null?  <Skeleton />  : like}</Typography >
+                                    <Typography sx={{fontSize:'1rem', width:'3rem'}}>{like == null?  <Skeleton />  : "Likes"}</Typography >
+                                </Stack>
+                                <Stack direction="column" spacing={0}>
+                                    <Typography  style={{fontSize:'1.2rem', color:'#46c69a'}}>{dislike == null?  <Skeleton />  : dislike}</Typography >
+                                    <Typography sx={{fontSize:'1rem', width:'3rem'}}>{dislike == null?  <Skeleton />  : "Dislike"}</Typography >
+                                </Stack>
+                                <Stack direction="column" spacing={0}>
+                                    <Typography  style={{fontSize:'1.2rem', color:'#46c69a'}}>{match == null?  <Skeleton />  : match}</Typography >
+                                    <Typography sx={{fontSize:'1rem', width:'3rem'}}>{match == null?  <Skeleton />  : "Match"}</Typography >
+                                </Stack>
+                            </Box>
 
                             <Box component="div" className={styles.linkItem}>
                                 <Link className={styles.link+" "+styles.active}  to="/">

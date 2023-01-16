@@ -1,12 +1,14 @@
 import React, { Component, useState, useEffect } from 'react'
 import styles from '../../css/homeAppAnimal.module.css';
 
+import Avatar from '@mui/material/Avatar';
 import Container from '../Container/Container';
 import FormaImage from '../FormaImage/FormaImage';
 import IconMLike from '../Icons/IconMLike';
 import IconSuperlike from '../Icons/IconSuperlike';
 import IconX from '../Icons/IconX';
 import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
 
 import { useSelector, useDispatch} from 'react-redux';
 import axios from 'axios';
@@ -28,7 +30,6 @@ const HomeAppAnimal = () =>{
     const mathUser = useSelector((state:any) => state.math) 
     const dispatch = useDispatch();
     const [isTokenValid, checkToken] = useAuthCheck(authUser.currentUser.token)
-    console.log(mathUser)
 
     const [open, setOpen] = React.useState(false);
     const handleClose = () => {
@@ -99,7 +100,7 @@ const HomeAppAnimal = () =>{
 
 
     return(
-        <Box component="div" sx={{height:'100%', marginLeft: '1.0rem', display:'flex',justifyContent:'center'}}>
+        <Box component="div" sx={{height:'100%', /*marginLeft: '1.0rem',*/ display:'flex',justifyContent:'end'}}>
             <Backdrop
                 sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                 open={open}
@@ -107,10 +108,12 @@ const HomeAppAnimal = () =>{
                 <CircularProgress color="inherit" />
             </Backdrop>
             {mathUser.animal.message && !mathUser.asAnimal ?(
-                <h1 style={{height:'100vh'}}>{mathUser.animal.message}</h1>
+                <Box sx={{borderRadius:'.8rem',marginTop:'5.5rem', display:'flex',flexDirection: 'row', alignItems:"center",justifyContent:'center',width:'67rem', height:'35vh'}}>
+                    <h1 >{mathUser.animal.message}</h1>
+                </Box>
             ):(
-                <Box sx={{borderRadius:'.8rem',marginTop:'5.5rem',height:'34rem', display:'flex',flexDirection: 'row', alignItems:"center",}}>
-                    <Box component="div" className={styles.card} sx={{borderRadius:'.8rem',marginTop:'5.5rem',height:'34rem', display:'flex',flexDirection: 'column', backgroundColor: "#FFFFFF", alignItems:"center",width: '100%',}}>
+                <Box sx={{borderRadius:'.8rem',marginTop:'5.5rem',height:'34rem', display:'flex',flexDirection: 'row', alignItems:"center",justifyContent:'space-between',width:'67rem'}}>
+                    <Box component="div" className={styles.card} sx={{borderRadius:'.8rem',height:'34rem', display:'flex',flexDirection: 'column', backgroundColor: "#FFFFFF", alignItems:"center",width: '46rem',}}>
                         <FormaImage url={mathUser.animal.pictureUser} className={""}/>
                         
                         <Box sx={{borderRadius:'.8rem',marginTop:'0.5rem',height:'4rem', width: '100%',display:'flex',flexDirection: 'row', backgroundColor: "#FFFFFF", alignItems:"center",}}>
@@ -136,9 +139,108 @@ const HomeAppAnimal = () =>{
                         <Box></Box>
                     </Box>
                     
-                    <Box>
-                            aaaaaa
+                    <Box sx={{height:'34rem', marginRight:'1rem', width:'19rem',display:'flex', flexDirection:'column', justifyContent:'space-between'}}>
+                        <Box sx={{borderRadius:3,backgroundColor:'white', height:'16rem',}}>
+                                
+                            <Box sx={{padding:'1rem', borderBottom:'.1rem solid black', textAlign:'center'}}>
+                                <p style={{color:'#5876ff', fontSize:'1.4rem'}}>Likes</p>
+                            </Box>
+                            <Stack direction="column" spacing={2} sx={{height:'13rem', display:'flex', justifyContent:'center', margin:'0 1.5rem'}}>
+                                <Stack direction="row" spacing={2}>
+                                    <Avatar sx={{ bgcolor: 'green[500]' }} variant="rounded" src="/static/images/avatar/1.jpg">
+                                    </Avatar>
+                                    <Stack direction="column" spacing={0}>
+                                        <p style={{fontSize:'1.2rem'}}>Collizinho</p>
+                                        <p>
+                                            <Stack direction="row" spacing={2} sx={{fontSize:'.83rem'}}>
+                                            <p>Liked you</p>
+                                            <p>2h ago</p>
+                                            </Stack>
+                                        </p>
+                                    </Stack>
+
+                                </Stack>
+                                <Stack direction="row" spacing={2}>
+                                    <Avatar sx={{ bgcolor: 'green[500]' }} variant="rounded" src="/static/images/avatar/1.jpg">
+                                    </Avatar>
+                                    <Stack direction="column" spacing={0}>
+                                        <p style={{fontSize:'1.2rem'}}>Collizinho</p>
+                                        <p>
+                                            <Stack direction="row" spacing={2} sx={{fontSize:'.83rem'}}>
+                                            <p>Liked you</p>
+                                            <p>2h ago</p>
+                                            </Stack>
+                                        </p>
+                                    </Stack>
+
+                                </Stack>
+                                <Stack direction="row" spacing={2}>
+                                    <Avatar sx={{ bgcolor: 'green[500]' }} variant="rounded" src="/static/images/avatar/1.jpg">
+                                    </Avatar>
+                                    <Stack direction="column" spacing={0}>
+                                        <p style={{fontSize:'1.2rem'}}>Collizinho</p>
+                                        <p>
+                                            <Stack direction="row" spacing={2} sx={{fontSize:'.83rem'}}>
+                                            <p>Liked you</p>
+                                            <p>2h ago</p>
+                                            </Stack>
+                                        </p>
+                                    </Stack>
+
+                                </Stack>
+                            </Stack>
                         </Box>
+                        <Box sx={{borderRadius:3,backgroundColor:'white', height:'16rem'}}>
+                            <Box sx={{padding:'1rem', borderBottom:'.1rem solid black', textAlign:'center'}}>
+                                <p style={{color:'#f88484', fontSize:'1.4rem'}}>Dislike</p>
+                            </Box>
+                            <Stack direction="column" spacing={2} sx={{height:'13rem', display:'flex', justifyContent:'center', margin:'0 1.5rem'}}>
+                                <Stack direction="row" spacing={2}>
+                                    <Avatar sx={{ bgcolor: 'green[500]' }} variant="rounded" src="/static/images/avatar/1.jpg">
+                                    </Avatar>
+                                    <Stack direction="column" spacing={0}>
+                                        <p style={{fontSize:'1.2rem'}}>Collizinho</p>
+                                        <p>
+                                            <Stack direction="row" spacing={2} sx={{fontSize:'.83rem'}}>
+                                            <p>Dislike you</p>
+                                            <p>2h ago</p>
+                                            </Stack>
+                                        </p>
+                                    </Stack>
+
+                                </Stack>
+                                <Stack direction="row" spacing={2}>
+                                    <Avatar sx={{ bgcolor: 'green[500]' }} variant="rounded" src="/static/images/avatar/1.jpg">
+                                    </Avatar>
+                                    <Stack direction="column" spacing={0}>
+                                        <p style={{fontSize:'1.2rem'}}>Collizinho</p>
+                                        <p>
+                                            <Stack direction="row" spacing={2} sx={{fontSize:'.83rem'}}>
+                                            <p>Dislike you</p>
+                                            <p>2h ago</p>
+                                            </Stack>
+                                        </p>
+                                    </Stack>
+
+                                </Stack>
+                                <Stack direction="row" spacing={2}>
+                                    <Avatar sx={{ bgcolor: 'green[500]' }} variant="rounded" src="/static/images/avatar/1.jpg">
+                                    </Avatar>
+                                    <Stack direction="column" spacing={0}>
+                                        <p style={{fontSize:'1.2rem'}}>Collizinho</p>
+                                        <p>
+                                            <Stack direction="row" spacing={2} sx={{fontSize:'.83rem'}}>
+                                            <p>Dislike you</p>
+                                            <p>2h ago</p>
+                                            </Stack>
+                                        </p>
+                                    </Stack>
+
+                                </Stack>
+                            </Stack>
+                                
+                        </Box>
+                    </Box>
                 </Box>
 
             )}
