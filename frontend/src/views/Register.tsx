@@ -65,7 +65,7 @@ const Register= () =>{
     const [isTokenValid, checkToken] = useAuthCheck(authUser.currentUser.token)
 
     useEffect(() => {
-        checkToken()
+        document.title = 'Register';
     }, []);
 
     const [state, setState] = useState({

@@ -40,6 +40,9 @@ function Login(){
     const authUser = useSelector((state:any) => state.authUser) 
     const dispatch = useDispatch();
 
+    useEffect(() =>{
+        document.title = 'Login';
+    })
 
     const [showPassword, setShowPassword] = React.useState(false);
 

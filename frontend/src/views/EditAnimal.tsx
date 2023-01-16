@@ -117,6 +117,7 @@ const EditAnimal = () =>{
 
     useEffect(() => {
         checkToken()
+        document.title = 'Editar Animal';
         getWings()
         const config = {
             headers: { Authorization: "Bearer "+authUser.currentUser.token }

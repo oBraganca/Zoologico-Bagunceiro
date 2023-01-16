@@ -89,6 +89,7 @@ const SettingsKeeper = () =>{
     }
 
     useEffect(() => {
+        document.title = 'Settings';
         checkToken()
         const config = {
             headers: { Authorization: "Bearer "+authUser.currentUser.token }

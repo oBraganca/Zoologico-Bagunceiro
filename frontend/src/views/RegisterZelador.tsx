@@ -73,6 +73,7 @@ const RegisterZelador = () =>{
     const [isTokenValid, checkToken] = useAuthCheck(authUser.currentUser.token)
 
     useEffect(() => {
+        document.title = 'Register Zelador';
         checkToken()
     }, []);
     

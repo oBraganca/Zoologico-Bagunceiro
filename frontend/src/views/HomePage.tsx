@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import styles from '../css/homePage.module.css';
 
 import Navbar from  "../components/Navbar/Navbar";
@@ -17,7 +17,12 @@ import Box from '@mui/material/Box'
 
 import background from '../../public/images/homeBackground.jpg';
 
+
+
 const HomePage = () =>{
+    useEffect(() =>{
+        document.title = 'Home Page';
+    })
     return(
         <Container class={styles.background}>
             <Image class={styles.homeComponent} url={window.location.origin + "/images/homeComponent.png"} alt="BigCo Inc. logo"/>

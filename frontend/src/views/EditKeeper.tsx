@@ -89,6 +89,7 @@ const EditKeeper = () =>{
     }
 
     useEffect(() => {
+        document.title = 'Editar Zelador';
         checkToken()
         const config = {
             headers: { Authorization: "Bearer "+authUser.currentUser.token }

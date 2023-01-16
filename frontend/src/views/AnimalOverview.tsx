@@ -67,6 +67,7 @@ const AnimalOverview = () => {
     const [isTokenValid, checkToken] = useAuthCheck(authUser.currentUser.token)
     
     useEffect(() => {
+        document.title = 'Overview';
         checkToken()
 
         const config = {
