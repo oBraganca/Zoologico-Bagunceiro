@@ -58,6 +58,20 @@ class MatchController extends Controller
         }
     }
 
+    
+    public function getDataMatch($id){
+        $id = Crypt::decryptString($id);
+        $animal = Animal::select(DB::raw("(select count(id) from voting_history where voting_history.voted_animal_id = animal.id and voting_history.vote_id = 3) as 'like'"), 
+        DB::raw("(select count(id) from voting_history where voting_history.voted_animal_id = animal.id and voting_history.vote_id = 2) as 'superlike'"), 
+        DB::raw("(select count(id) from voting_history where voting_history.voted_animal_id = animal.id and voting_history.vote_id = 1) as 'dislike'"),
+        DB::raw("(select count(*) from voting_history as v1 join voting_history as v2 on v2.by_animal_id = v1.voted_animal_id and v2.voted_animal_id = v1.by_animal_id where v1.voted_animal_id = animal.id and v1.vote_id IN(3,2) and v2.vote_id IN(3,2)) 'match'"),)
+        ->join('users', 'users.id', '=', 'animal.user_id')
+        ->join('zoo_wing', 'zoo_wing.id', '=', 'animal.zooWing_id')->where("users.id", $id)
+        ->get();
+        return response($animal, 200);
+
+    }
+
     public function createHistoryVote(Request $request){
         $validator = Validator::make($request->all(), [
             'vote_id' => 'required|string|max:255',

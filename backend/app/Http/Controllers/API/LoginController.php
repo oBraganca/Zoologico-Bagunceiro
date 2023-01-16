@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Models\User;
+use Illuminate\Support\Facades\Crypt;
 
 class LoginController extends Controller
 {
@@ -31,6 +32,7 @@ class LoginController extends Controller
                     'pictureProfile' => $user->pictureUser,
                     'email' => $user->email,
                     'name' => $user->name,
+                    'id' => Crypt::encryptString($user->id),
                     
                 ];
                 return response($response, 200);
