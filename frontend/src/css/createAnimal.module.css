@@ -1,6 +1,8 @@
 .container{
     width: 100%;
     background-color: #f3f3f3;
+    background-image: url('https://i.imgur.com/bazaE6f.png');
+    background-size: cover;
 }
 
 h1{
