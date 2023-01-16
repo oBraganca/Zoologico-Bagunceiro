@@ -106,6 +106,7 @@ const SettingsAnimal = () =>{
     }
 
     useEffect(() => {
+        document.title = 'Settings';
         checkToken()
         getWings()
         const config = {
